@@ -10,6 +10,10 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        //加载weibo sdk的授权信息
+        buildConfigField('String','APP_KEY',"\"${appKey}\"")
+        buildConfigField('String','APP_SECRET',"\"${appSecret}\"")
     }
     buildTypes {
         release {
