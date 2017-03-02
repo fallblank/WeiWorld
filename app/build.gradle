@@ -26,7 +26,6 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile project(':weiboSDK')
-    compile files('libs/weiboSDKCore_314.jar')
 
     testCompile 'junit:junit:4.12'
 }
