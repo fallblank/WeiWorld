@@ -14,6 +14,7 @@ android {
         //加载weibo sdk的授权信息
         buildConfigField('String','APP_KEY',"\"${appKey}\"")
         buildConfigField('String','APP_SECRET',"\"${appSecret}\"")
+        buildConfigField('String','APP_SCOPE',"\"${appScope}\"")
     }
     buildTypes {
         release {
