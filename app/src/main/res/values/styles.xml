@@ -8,4 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!--No action bar theme-->
+    <style name="NoActionBar" parent="AppTheme">
+        <item name="actionBarStyle">@style/NoActionBar</item>
+    </style>
+
 </resources>

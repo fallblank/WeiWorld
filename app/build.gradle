@@ -11,7 +11,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
-        //加载weibo sdk的授权信息
+        //Load weibo sdk authority
         buildConfigField('String','APP_KEY',"\"${appKey}\"")
         buildConfigField('String','APP_SECRET',"\"${appSecret}\"")
         buildConfigField('String','APP_SCOPE',"\"${appScope}\"")
@@ -31,6 +31,10 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile project(':weiboSDK')
+
+    //Load JakeWharton's butterknife to bind view quickly
+    compile 'com.jakewharton:butterknife:8.5.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 
     testCompile 'junit:junit:4.12'
 }
