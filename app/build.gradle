@@ -12,9 +12,9 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         //Load weibo sdk authority
-        buildConfigField('String','APP_KEY',"\"${appKey}\"")
-        buildConfigField('String','APP_SECRET',"\"${appSecret}\"")
-        buildConfigField('String','APP_SCOPE',"\"${appScope}\"")
+        buildConfigField('String', 'APP_KEY', "\"${appKey}\"")
+        buildConfigField('String', 'APP_SECRET', "\"${appSecret}\"")
+        buildConfigField('String', 'APP_SCOPE', "\"${appScope}\"")
     }
     buildTypes {
         release {
@@ -29,12 +29,13 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.2.0'
     compile project(':weiboSDK')
 
     //Load JakeWharton's butterknife to bind view quickly
+    compile 'com.android.support:appcompat-v7:25.3.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.jakewharton:butterknife:8.5.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
-
+    compile 'com.android.support:support-v4:25.3.0'
     testCompile 'junit:junit:4.12'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }

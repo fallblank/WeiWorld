@@ -6,4 +6,8 @@
 
     <!--background of login button-->
     <color name="colorLogin">#80d2d4d2</color>
+
+    <color name="transparent">#ffffffff</color>
+
+    <color name="white_overlay">#ffffff</color>
 </resources>
