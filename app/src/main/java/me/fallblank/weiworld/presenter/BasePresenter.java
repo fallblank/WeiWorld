@@ -13,7 +13,7 @@ public abstract class BasePresenter<T extends IView>{
     protected T mView;
     protected Context mContext;
 
-    protected BasePresenter(Context context,T view){
+    public BasePresenter(Context context,T view){
         mContext = context;
         mView = view;
     }

@@ -10,24 +10,6 @@ import android.widget.Toast;
 public final class ToastUtil {
     private static Toast sToast;
 
-    public static void showLong(Context context, String content) {
-        if (null == sToast) {
-            sToast = Toast.makeText(context, content, Toast.LENGTH_LONG);
-        }
-        sToast.setText(content);
-        sToast.setDuration(Toast.LENGTH_LONG);
-        sToast.show();
-    }
-
-    public static void showShort(Context context, String content) {
-        if (null == sToast) {
-            sToast = Toast.makeText(context, content, Toast.LENGTH_SHORT);
-        }
-        sToast.setText(content);
-        sToast.setDuration(Toast.LENGTH_SHORT);
-        sToast.show();
-    }
-
     //most common style
     public static void show(Context context, String content) {
         if (null != sToast) {
