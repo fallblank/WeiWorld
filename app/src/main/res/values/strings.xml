@@ -8,4 +8,10 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="auth_cancle">Authority is canceled</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="auth_error">Authority occured error</string>
+    <string name="auth_fail">Authority failure</string>
 </resources>

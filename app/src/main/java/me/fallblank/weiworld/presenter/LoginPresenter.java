@@ -13,6 +13,8 @@ import com.sina.weibo.sdk.exception.WeiboException;
 
 import me.fallblank.weiworld.BuildConfig;
 import me.fallblank.weiworld.R;
+import me.fallblank.weiworld.biz.AuthComplete;
+import me.fallblank.weiworld.util.AccessTokenKeeper;
 import me.fallblank.weiworld.util.LogUtil;
 import me.fallblank.weiworld.util.ToastUtil;
 import me.fallblank.weiworld.view.IView;
@@ -20,6 +22,7 @@ import me.fallblank.weiworld.view.IWaitView;
 
 import static com.sina.weibo.sdk.auth.Oauth2AccessToken.parseAccessToken;
 import static com.sina.weibo.sdk.openapi.legacy.AccountAPI.CAPITAL.S;
+import static com.sina.weibo.sdk.openapi.legacy.CommonAPI.CAPITAL.e;
 import static com.sina.weibo.sdk.openapi.legacy.CommonAPI.CAPITAL.m;
 
 /**
@@ -32,23 +35,22 @@ public class LoginPresenter extends BasePresenter<IWaitView> implements WeiboAut
 
     private SsoHandler mSsoHandler;
 
+    private AuthComplete mAuthComplete;
+
     private Activity mLoginActivity;
 
-    public LoginPresenter(Context context,Activity activity, IWaitView view) {
+    public LoginPresenter(Context context,Activity activity, AuthComplete authComplete,IWaitView view) {
         super(context, view);
         mLoginActivity = activity;
         mAuthInfo = new AuthInfo(mContext, BuildConfig.APP_KEY, BuildConfig.APP_GRANT_URL, BuildConfig.APP_SCOPE);
         mSsoHandler = new SsoHandler((Activity) mContext,mAuthInfo);
+        mAuthComplete = authComplete;
     }
 
-    public boolean login(){
+    public void login(){
         mView.show();
         authority();
-        //check athcode
-        saveAuthCode();
         mView.hide();
-        return false;
-        //处理登录逻辑
     }
 
     public void register(){
@@ -69,24 +71,30 @@ public class LoginPresenter extends BasePresenter<IWaitView> implements WeiboAut
         mSsoHandler.authorizeCallBack(requestCode,resultCode,data);
     }
 
-    private String saveAuthCode(){
-        return null;
-    }
-
     @Override
     public void onComplete(Bundle bundle) {
         Oauth2AccessToken token = Oauth2AccessToken.parseAccessToken(bundle);
-        LogUtil.d(token.getToken());
+        if (token.isSessionValid()){
+            AccessTokenKeeper.writeAccessToken(mContext,token);
+            LogUtil.d("Token:"+token.getToken());
+            LogUtil.d("Phone"+token.getPhoneNum());
+            LogUtil.d("RefreshToken:"+token.getRefreshToken());
+            LogUtil.d("Uid:"+token.getUid());
+            LogUtil.d("ExpiresTime:"+token.getExpiresTime());
+            mAuthComplete.success();
+        }else {
+            mAuthComplete.fail();
+        }
     }
 
     @Override
     public void onWeiboException(WeiboException e) {
-
+        mAuthComplete.exception(e);
     }
 
     @Override
     public void onCancel() {
-        mView.hide();
-        ToastUtil.show(mContext,mContext.getString(R.string.auth_cancle));
+        mAuthComplete.cancer();
     }
+
 }

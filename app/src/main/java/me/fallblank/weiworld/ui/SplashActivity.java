@@ -6,12 +6,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
 
+import com.sina.weibo.sdk.auth.Oauth2AccessToken;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import me.fallblank.weiworld.App;
 import me.fallblank.weiworld.R;
+import me.fallblank.weiworld.util.AccessTokenKeeper;
 
 import static android.R.attr.onClick;
+import static me.fallblank.weiworld.util.AccessTokenKeeper.readAccessToken;
 
 public class SplashActivity extends BaseActivity {
 
@@ -45,7 +50,7 @@ public class SplashActivity extends BaseActivity {
         public void run() {
             Intent i = null;
             if (checkLogin()){
-                i = new Intent(SplashActivity.this,MainActivity.class);
+                i = new Intent(SplashActivity.this,HomeActivity.class);
             }else {
                 i = new Intent(SplashActivity.this,LoginActivity.class);
             }
@@ -55,8 +60,15 @@ public class SplashActivity extends BaseActivity {
     };
 
     private boolean checkLogin(){
-        //故意返回false，测试使用
-        return false;
+        Oauth2AccessToken accessToken = AccessTokenKeeper.readAccessToken(this);
+        if (accessToken == null || !accessToken.isSessionValid()){
+            return false;
+        }
+        App application = (App) this.getApplication();
+        application.setAccessToken(accessToken);
+        return true;
     }
+
+    //检查token有效期未做
 
 }
