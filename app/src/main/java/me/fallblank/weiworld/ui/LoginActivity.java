@@ -52,6 +52,7 @@ public class LoginActivity extends BaseActivity implements IWaitView,AuthComplet
     @OnClick(R.id.btn_register)
    void register() {
         Intent intent = new Intent(Intent.ACTION_VIEW);
+
         Uri uri = Uri.parse(Constant.REG_URL);
         intent.setData(uri);
         startActivity(intent);
