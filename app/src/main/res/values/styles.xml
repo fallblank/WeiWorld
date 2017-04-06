@@ -6,20 +6,12 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
     </style>
 
-    <!--No action bar theme-->
-    <style name="NoActionBar" parent="AppTheme">
-        <item name="actionBarStyle">@style/NoActionBar</item>
+    <style name="NoActionBarTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
     </style>
 
-    <!--Translucent dialog style-->
-    <style name="TranslucentFullScreen">
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@color/transparent</item>
-        <item name="android:gravity">center_horizontal|center_vertical</item>
-        <item name="android:layout_centerHorizontal">true</item>
-        <item name="android:layout_centerVertical">true</item>
-    </style>
 
 </resources>
