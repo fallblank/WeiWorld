@@ -1,7 +1,6 @@
 package me.fallblank.weiworld.ui;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -14,12 +13,8 @@ import butterknife.OnClick;
 import me.fallblank.weiworld.R;
 import me.fallblank.weiworld.biz.AuthComplete;
 import me.fallblank.weiworld.presenter.LoginPresenter;
-import me.fallblank.weiworld.util.Constant;
-import me.fallblank.weiworld.util.LogUtil;
 import me.fallblank.weiworld.util.ToastUtil;
 import me.fallblank.weiworld.view.IWaitView;
-
-import static com.sina.weibo.sdk.openapi.legacy.AccountAPI.CAPITAL.I;
 
 public class LoginActivity extends BaseActivity implements IWaitView,AuthComplete{
     @BindView(R.id.btn_login)
@@ -51,23 +46,16 @@ public class LoginActivity extends BaseActivity implements IWaitView,AuthComplet
 
     @OnClick(R.id.btn_register)
    void register() {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-
-        Uri uri = Uri.parse(Constant.REG_URL);
-        intent.setData(uri);
-        startActivity(intent);
+        mLoginPresenter.register();
     }
 
     @OnClick(R.id.tv_forgot)
     void forgotPassword() {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        Uri uri = Uri.parse(Constant.FORGOT_URL);
-        intent.setData(uri);
-        startActivity(intent);
+        mLoginPresenter.forgotPassword();
     }
 
     private void init() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.TranslucentFullScreen);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, 0);
         LayoutInflater inflater = LayoutInflater.from(this);
         builder.setView(inflater.inflate(R.layout.dialog_progress_wait,null));
         mWaitDialog = builder.create();
@@ -93,6 +81,7 @@ public class LoginActivity extends BaseActivity implements IWaitView,AuthComplet
 
     @Override
     public void success() {
+        ToastUtil.show(this,getString(R.string.auth_success));
         Intent i = new Intent(this,HomeActivity.class);
         startActivity(i);
         this.finish();

@@ -3,6 +3,7 @@ package me.fallblank.weiworld.presenter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.sina.weibo.sdk.auth.AuthInfo;
@@ -11,19 +12,13 @@ import com.sina.weibo.sdk.auth.WeiboAuthListener;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.sina.weibo.sdk.exception.WeiboException;
 
+import me.fallblank.weiworld.App;
 import me.fallblank.weiworld.BuildConfig;
-import me.fallblank.weiworld.R;
 import me.fallblank.weiworld.biz.AuthComplete;
-import me.fallblank.weiworld.util.AccessTokenKeeper;
+import me.fallblank.weiworld.util.AsynTokenWriter;
+import me.fallblank.weiworld.util.Constant;
 import me.fallblank.weiworld.util.LogUtil;
-import me.fallblank.weiworld.util.ToastUtil;
-import me.fallblank.weiworld.view.IView;
 import me.fallblank.weiworld.view.IWaitView;
-
-import static com.sina.weibo.sdk.auth.Oauth2AccessToken.parseAccessToken;
-import static com.sina.weibo.sdk.openapi.legacy.AccountAPI.CAPITAL.S;
-import static com.sina.weibo.sdk.openapi.legacy.CommonAPI.CAPITAL.e;
-import static com.sina.weibo.sdk.openapi.legacy.CommonAPI.CAPITAL.m;
 
 /**
  * Created by fallb on 2017/3/22.
@@ -49,18 +44,26 @@ public class LoginPresenter extends BasePresenter<IWaitView> implements WeiboAut
 
     public void login(){
         mView.show();
+
         authority();
-        mView.hide();
     }
 
     public void register(){
         mView.show();
-        //处理注册逻辑
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        Uri uri = Uri.parse(Constant.REG_URL);
+        intent.setData(uri);
+        mLoginActivity.startActivity(intent);
+        mView.hide();
     }
 
     public void forgotPassword(){
         mView.show();
-        //处理密码找回逻辑
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        Uri uri = Uri.parse(Constant.FORGOT_URL);
+        intent.setData(uri);
+        mLoginActivity.startActivity(intent);
+        mView.hide();
     }
 
     private void authority(){
@@ -73,9 +76,15 @@ public class LoginPresenter extends BasePresenter<IWaitView> implements WeiboAut
 
     @Override
     public void onComplete(Bundle bundle) {
+        mView.hide();
         Oauth2AccessToken token = Oauth2AccessToken.parseAccessToken(bundle);
         if (token.isSessionValid()){
-            AccessTokenKeeper.writeAccessToken(mContext,token);
+            //异步写入token到sharedPreference
+            asynWriteToken(token);
+            //保存token到context对象
+            App app = (App) mContext.getApplicationContext();
+            app.setAccessToken(token);
+            //调试
             LogUtil.d("Token:"+token.getToken());
             LogUtil.d("Phone"+token.getPhoneNum());
             LogUtil.d("RefreshToken:"+token.getRefreshToken());
@@ -89,12 +98,19 @@ public class LoginPresenter extends BasePresenter<IWaitView> implements WeiboAut
 
     @Override
     public void onWeiboException(WeiboException e) {
+        mView.hide();
         mAuthComplete.exception(e);
     }
 
     @Override
     public void onCancel() {
+        mView.hide();
         mAuthComplete.cancer();
+    }
+
+    public void asynWriteToken(Oauth2AccessToken token){
+        AsynTokenWriter tokenWriter = new AsynTokenWriter(mContext,token);
+        tokenWriter.start();
     }
 
 }
