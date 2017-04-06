@@ -2,13 +2,14 @@ package me.fallblank.weiworld.bean;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
 import java.util.List;
 
 /**
  * Created by fallb on 2017/3/31.
  */
 
-public class Weibo {
+public class Weibo extends BaseBean{
 
     /**
      * created_at : Thu Mar 30 15:19:53 +0800 2017
@@ -50,7 +51,7 @@ public class Weibo {
      * is_show_bulletin : 2
      */
 
-    private String created_at;
+    private Date created_at;
     private long id;
     private String mid;
     private String idstr;
@@ -82,11 +83,11 @@ public class Weibo {
     private List<PicUrlsBean> pic_urls;
     private List<AnnotationsBean> annotations;
 
-    public String getCreated_at() {
+    public Date getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(String created_at) {
+    public void setCreated_at(Date created_at) {
         this.created_at = created_at;
     }
 

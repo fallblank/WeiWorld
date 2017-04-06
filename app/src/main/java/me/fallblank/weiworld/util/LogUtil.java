@@ -51,6 +51,14 @@ public final class LogUtil {
     }
 
     @NonNull
+    public static void e(String message,Throwable throwable) {
+        if (!sDebug) return;
+        getMethodInfo(new Throwable().getStackTrace());
+        Log.e(sClassName, createLog(message),throwable);
+    }
+
+
+    @NonNull
     public static void i(String message) {
         if (!sDebug) return;
         getMethodInfo(new Throwable().getStackTrace());
@@ -58,10 +66,25 @@ public final class LogUtil {
     }
 
     @NonNull
+    public static void i(String message,Throwable throwable) {
+        if (!sDebug) return;
+        getMethodInfo(new Throwable().getStackTrace());
+        Log.i(sClassName, createLog(message),throwable);
+    }
+
+
+    @NonNull
     public static void d(String message) {
         if (!sDebug) return;
         getMethodInfo(new Throwable().getStackTrace());
         Log.d(sClassName, createLog(message));
+    }
+
+    @NonNull
+    public static void d(String message,Throwable throwable) {
+        if (!sDebug) return;
+        getMethodInfo(new Throwable().getStackTrace());
+        Log.d(sClassName, createLog(message),throwable);
     }
 
     @NonNull
@@ -72,6 +95,13 @@ public final class LogUtil {
     }
 
     @NonNull
+    public static void w(String message,Throwable throwable) {
+        if (!sDebug) return;
+        getMethodInfo(new Throwable().getStackTrace());
+        Log.w(sClassName, createLog(message),throwable);
+    }
+
+    @NonNull
     public static void v(String message) {
         if (!sDebug) return;
         getMethodInfo(new Throwable().getStackTrace());
@@ -79,10 +109,24 @@ public final class LogUtil {
     }
 
     @NonNull
+    public static void v(String message,Throwable throwable) {
+        if (!sDebug) return;
+        getMethodInfo(new Throwable().getStackTrace());
+        Log.v(sClassName, createLog(message),throwable);
+    }
+
+    @NonNull
     public static void wtf(String message) {
         if (!sDebug) return;
         getMethodInfo(new Throwable().getStackTrace());
         Log.wtf(sClassName, createLog(message));
+    }
+
+    @NonNull
+    public static void wtf(String message,Throwable throwable) {
+        if (!sDebug) return;
+        getMethodInfo(new Throwable().getStackTrace());
+        Log.wtf(sClassName, createLog(message),throwable);
     }
 
 

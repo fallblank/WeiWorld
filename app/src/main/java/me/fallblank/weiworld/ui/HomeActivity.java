@@ -1,19 +1,26 @@
 package me.fallblank.weiworld.ui;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.widget.FrameLayout;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import me.fallblank.weiworld.R;
 
 public class HomeActivity extends BaseActivity {
 
-    private TextView mTextMessage;
+    private static final String TAG_CONTENT = "HomeActivity.ContentFragment";
+
+    @BindView(R.id.fl_container) FrameLayout mContainer;
+    @BindView(R.id.bn_navigation) BottomNavigationView mNavigation;
+    private FragmentManager mFManager;
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -22,13 +29,23 @@ public class HomeActivity extends BaseActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    mTextMessage.setText(R.string.title_home);
+                    Fragment content = mFManager.findFragmentByTag(TAG_CONTENT);
+                    if (null == content){
+                        content = ContentFragment.newInstance();
+                        mFManager.beginTransaction()
+                                .add(R.id.fl_container,content,TAG_CONTENT)
+                                .commit();
+                    }else {
+                        mFManager.beginTransaction()
+                                .replace(R.id.fl_container,content,TAG_CONTENT)
+                                .commit();
+                    }
                     return true;
                 case R.id.navigation_dashboard:
-                    mTextMessage.setText(R.string.title_dashboard);
+                    //contact
                     return true;
                 case R.id.navigation_notifications:
-                    mTextMessage.setText(R.string.title_notifications);
+                    //setting
                     return true;
             }
             return false;
@@ -45,9 +62,9 @@ public class HomeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mTextMessage = (TextView) findViewById(R.id.message);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        ButterKnife.bind(this);
+        mFManager = getFragmentManager();
+        mNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
     //Avoid application exit on back button pressed

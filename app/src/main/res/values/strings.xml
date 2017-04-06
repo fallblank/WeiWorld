@@ -5,8 +5,6 @@
     <string name="forgot_password">Forgot password?</string>
 
     <string name="title_activity_login">LoginActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="auth_cancle">Authority is canceled</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_home">Home</string>
@@ -14,4 +12,8 @@
     <string name="title_notifications">Notifications</string>
     <string name="auth_error">Authority occured error</string>
     <string name="auth_fail">Authority failure</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="auth_success">Authority successfully</string>
 </resources>

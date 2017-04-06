@@ -13,7 +13,7 @@ import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import me.fallblank.weiworld.bean.ContentResponse;
 import me.fallblank.weiworld.biz.IWeiboContent;
-import me.fallblank.weiworld.imp.WeiboContentImp;
+import me.fallblank.weiworld.impl.WeiboContentImp;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;

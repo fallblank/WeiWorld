@@ -7,7 +7,14 @@
     <!--background of login button-->
     <color name="colorLogin">#80d2d4d2</color>
 
-    <color name="transparent">#ffffffff</color>
+    <color name="colorTextPrimary">#000000</color>
 
+    <color name="colorTextPrimaryLighter">#6b6a6a</color>
+    
     <color name="white_overlay">#ffffff</color>
+
+    <color name="color_schema_first">#ff0000</color>
+    <color name="color_schema_second">#00ff00</color>
+    <color name="color_schema_third">#0000ff</color>
+
 </resources>
