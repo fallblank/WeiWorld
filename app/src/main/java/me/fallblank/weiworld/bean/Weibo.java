@@ -68,6 +68,9 @@ public class Weibo extends BaseBean{
     private GeoBean geo;
     @SerializedName("user")
     private User user;
+
+    //当微博是转发内容时，存在该字段
+    private Weibo retweeted_status;
     private int reposts_count;
     private int comments_count;
     private int attitudes_count;
@@ -181,6 +184,14 @@ public class Weibo extends BaseBean{
 
     public User getUser() {
         return user;
+    }
+
+    public Weibo getRetweeted_status() {
+        return retweeted_status;
+    }
+
+    public void setRetweeted_status(Weibo retweeted_status) {
+        this.retweeted_status = retweeted_status;
     }
 
     public void setUser(User user) {
@@ -489,5 +500,16 @@ public class Weibo extends BaseBean{
                 this.lat = lat;
             }
         }
+    }
+
+    /**
+     * 判断该微博是否是转发
+     * @return true转发微博，false原创微博
+     */
+    public boolean isRetweet(){
+        if (null != retweeted_status){
+            return true;
+        }
+        return false;
     }
 }
