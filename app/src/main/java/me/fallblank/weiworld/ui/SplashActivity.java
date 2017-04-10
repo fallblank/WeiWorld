@@ -1,22 +1,17 @@
 package me.fallblank.weiworld.ui;
 
 import android.content.Intent;
-import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.Button;
 
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.fallblank.weiworld.App;
 import me.fallblank.weiworld.R;
 import me.fallblank.weiworld.util.AccessTokenKeeper;
-
-import static android.R.attr.onClick;
-import static me.fallblank.weiworld.util.AccessTokenKeeper.readAccessToken;
 
 public class SplashActivity extends BaseActivity {
 
@@ -35,7 +30,6 @@ public class SplashActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mHandler.postDelayed(mLauncher,DELAY_TIME_SECOND);
-        ButterKnife.bind(this);
 
     }
 

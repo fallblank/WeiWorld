@@ -16,9 +16,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.fallblank.weiworld.R;
-import me.fallblank.weiworld.ui.adapter.ContentAdapter;
 import me.fallblank.weiworld.bean.Weibo;
 import me.fallblank.weiworld.presenter.ContentPresenter;
+import me.fallblank.weiworld.ui.adapter.ContentAdapter;
 import me.fallblank.weiworld.util.ToastUtil;
 import me.fallblank.weiworld.view.IRefreshView;
 

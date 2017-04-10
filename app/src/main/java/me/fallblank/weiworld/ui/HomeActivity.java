@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import me.fallblank.weiworld.R;
 
 public class HomeActivity extends BaseActivity {
@@ -62,7 +61,6 @@ public class HomeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ButterKnife.bind(this);
         mFManager = getFragmentManager();
         mNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }

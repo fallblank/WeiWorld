@@ -15,21 +15,21 @@ import me.fallblank.weiworld.util.TimeFormatter;
  * Created by fallb on 2017/4/5.
  */
 
-public class ContentAdapter extends BaseAdapter<Weibo,WeiboBaseHolder>{
+public class ContentAdapter extends BaseAdapter<Weibo, BaseWeiboHolder> {
 
     public ContentAdapter(Context context, List<Weibo> dataList) {
         super(context, dataList);
     }
 
     @Override
-    public WeiboBaseHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(mContext).inflate(R.layout.item_content,parent,false);
-        WeiboBaseHolder holder = new WeiboBaseHolder(itemView);
+    public BaseWeiboHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(mContext).inflate(R.layout.item_base_weibo_content, parent, false);
+        BaseWeiboHolder holder = new BaseWeiboHolder(itemView);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(WeiboBaseHolder holder, int position) {
+    public void onBindViewHolder(BaseWeiboHolder holder, int position) {
         Weibo weibo = getItem(position);
         holder.setUserProfile(weibo.getUser().getProfile_image_url());
         holder.setUserName(weibo.getUser().getScreen_name());

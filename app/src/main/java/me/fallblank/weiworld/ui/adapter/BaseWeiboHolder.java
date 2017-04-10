@@ -1,20 +1,19 @@
 package me.fallblank.weiworld.ui.adapter;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import me.fallblank.weiworld.R;
 
 /**
  * Created by fallb on 2017/4/5.
  */
 
-public class WeiboBaseHolder extends RecyclerView.ViewHolder {
+public class BaseWeiboHolder extends BaseHolder {
 
     @BindView(R.id.user_profile)
     SimpleDraweeView mUserProfile;
@@ -28,9 +27,11 @@ public class WeiboBaseHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.weibo_text)
     TextView mContentText;
 
-    public WeiboBaseHolder(View itemView) {
+    @BindView(R.id.weibo_option)
+    FrameLayout mWeiboOption;
+
+    public BaseWeiboHolder(View itemView) {
         super(itemView);
-        ButterKnife.bind(this, itemView);
     }
 
     public void setUserProfile(String uri) {

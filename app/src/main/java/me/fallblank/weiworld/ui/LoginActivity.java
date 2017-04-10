@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.fallblank.weiworld.R;
 import me.fallblank.weiworld.biz.AuthComplete;
@@ -36,7 +35,6 @@ public class LoginActivity extends BaseActivity implements IWaitView,AuthComplet
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
-        ButterKnife.bind(this);
     }
 
     @OnClick(R.id.btn_login)

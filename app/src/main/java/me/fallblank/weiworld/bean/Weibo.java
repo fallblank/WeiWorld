@@ -5,11 +5,14 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Date;
 import java.util.List;
 
+import me.fallblank.weiworld.util.URLParser;
+
+
 /**
  * Created by fallb on 2017/3/31.
  */
 
-public class Weibo extends BaseBean{
+public class Weibo extends BaseBean {
 
     /**
      * created_at : Thu Mar 30 15:19:53 +0800 2017
@@ -504,12 +507,53 @@ public class Weibo extends BaseBean{
 
     /**
      * 判断该微博是否是转发
-     * @return true转发微博，false原创微博
+     *
+     * @return true转发微博；false原创微博
      */
-    public boolean isRetweet(){
-        if (null != retweeted_status){
+    public boolean isRetweet() {
+        if (null != retweeted_status) {
             return true;
         }
         return false;
+    }
+
+    /**
+     * 判断改微博是否包含图片。
+     *
+     * @return true 包含；false 不包含
+     */
+    public boolean isContainPic() {
+        if (null == pic_urls || pic_urls.size() == 0) {
+            return false;
+        }
+        return true;
+    }
+
+    private String baseThumnbnail;
+    private String baseBMiddle;
+    private String baseOrigin;
+
+    /**
+     * 获取基础地址
+     */
+    public String getThuBaseUrl(){
+        if (null == baseThumnbnail){
+            baseThumnbnail = URLParser.getBaseUrl(thumbnail_pic);
+        }
+        return baseThumnbnail;
+    }
+
+    public String getBmidBaseUrl(){
+        if (null == baseBMiddle){
+            baseBMiddle = URLParser.getBaseUrl(bmiddle_pic);
+        }
+        return baseBMiddle;
+    }
+
+    public String getOriBaseUrl() {
+        if (null == baseOrigin){
+            baseOrigin = URLParser.getBaseUrl(original_pic);
+        }
+        return baseOrigin;
     }
 }

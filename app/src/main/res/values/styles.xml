@@ -6,12 +6,21 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-
     </style>
 
     <style name="NoActionBarTheme" parent="Theme.AppCompat.Light.NoActionBar">
-
     </style>
 
+    <style name="WeiboContentStyle">
+        <item name="android:textColor">@color/colorTextPrimary</item>
+    </style>
+
+    <style name="WeiboTimestampStyle">
+        <item name="android:textColor">@color/colorTextPrimaryLighter</item>
+    </style>
+
+    <style name="RetweetWeiboStyle">
+        <item name="android:background">@color/colorOriginBackground</item>
+    </style>
 
 </resources>

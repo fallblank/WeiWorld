@@ -6,9 +6,6 @@
     android:layout_height="match_parent"
     tools:context="me.fallblank.weiworld.ui.ContentFragment">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_content_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+    <include layout="@layout/view_recycler"/>
 
 </android.support.v4.widget.SwipeRefreshLayout>

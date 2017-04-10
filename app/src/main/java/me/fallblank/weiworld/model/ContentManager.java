@@ -90,7 +90,8 @@ public class ContentManager extends BaseModel {
 
                     @Override
                     public void onNext(Weibo weibo) {
-                        mDataList.add(weibo);
+                        //保证最新在最前面
+                        mDataList.add(0,weibo);
                         size ++;
                     }
 
