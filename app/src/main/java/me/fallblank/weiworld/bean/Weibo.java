@@ -2,10 +2,13 @@ package me.fallblank.weiworld.bean;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import me.fallblank.weiworld.util.URLParser;
+
+import static com.sina.weibo.sdk.openapi.legacy.CommonAPI.CAPITAL.b;
 
 
 /**
@@ -397,7 +400,7 @@ public class Weibo extends BaseBean {
         }
     }
 
-    public static class PicUrlsBean {
+    public static class PicUrlsBean extends BaseBean {
         /**
          * thumbnail_pic : http://wx2.sinaimg.cn/thumbnail/eba694c2ly1fe4w5et1byj205a04kq2u.jpg
          */
@@ -536,24 +539,59 @@ public class Weibo extends BaseBean {
     /**
      * 获取基础地址
      */
-    public String getThuBaseUrl(){
-        if (null == baseThumnbnail){
+    public String getThuBaseUrl() {
+        if (null == baseThumnbnail) {
             baseThumnbnail = URLParser.getBaseUrl(thumbnail_pic);
         }
         return baseThumnbnail;
     }
 
-    public String getBmidBaseUrl(){
-        if (null == baseBMiddle){
+    public String getBmidBaseUrl() {
+        if (null == baseBMiddle) {
             baseBMiddle = URLParser.getBaseUrl(bmiddle_pic);
         }
         return baseBMiddle;
     }
 
     public String getOriBaseUrl() {
-        if (null == baseOrigin){
+        if (null == baseOrigin) {
             baseOrigin = URLParser.getBaseUrl(original_pic);
         }
         return baseOrigin;
     }
+
+    private List<PicUrlsBean> bmiddle_urls;
+
+    public List<PicUrlsBean> getBmiddle_urls() {
+        if (null == bmiddle_urls) {
+            int size = pic_urls.size();
+            bmiddle_urls = new ArrayList<>(size);
+            for (int i = 0; i < size; i++) {
+                PicUrlsBean thumbnail = pic_urls.get(i);
+                String url = getBmidBaseUrl()+URLParser.getURLFilename(thumbnail.getThumbnail_pic());
+                PicUrlsBean bmiddle = new PicUrlsBean();
+                bmiddle.setThumbnail_pic(url);
+                bmiddle_urls.add(bmiddle);
+            }
+        }
+        return bmiddle_urls;
+    }
+
+    private List<PicUrlsBean> origin_urls;
+
+    public List<PicUrlsBean> getOrigin_urls() {
+        if (null == origin_urls) {
+            int size = pic_urls.size();
+            origin_urls = new ArrayList<>(size);
+            for (int i = 0; i < size; i++) {
+                PicUrlsBean thumbnail = pic_urls.get(i);
+                String url = getBmidBaseUrl()+URLParser.getURLFilename(thumbnail.getThumbnail_pic());
+                PicUrlsBean bmiddle = new PicUrlsBean();
+                bmiddle.setThumbnail_pic(url);
+                origin_urls.add(bmiddle);
+            }
+        }
+        return origin_urls;
+    }
+
 }

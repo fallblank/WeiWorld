@@ -22,12 +22,12 @@ import me.fallblank.weiworld.ui.adapter.ContentAdapter;
 import me.fallblank.weiworld.util.ToastUtil;
 import me.fallblank.weiworld.view.IRefreshView;
 
-public class ContentFragment extends Fragment implements IRefreshView,SwipeRefreshLayout.OnRefreshListener{
+public class ContentFragment extends Fragment implements IRefreshView, SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.sr_refresh)
     SwipeRefreshLayout mRefresh;
 
-    @BindView(R.id.rv_content_list)
+    @BindView(R.id.rv_list)
     RecyclerView mContentList;
 
     private RecyclerView.LayoutManager mLayoutManager;
@@ -48,22 +48,22 @@ public class ContentFragment extends Fragment implements IRefreshView,SwipeRefre
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_content,container,false);
-        ButterKnife.bind(this,root);
+        View root = inflater.inflate(R.layout.fragment_content, container, false);
+        ButterKnife.bind(this, root);
         init();
         return root;
     }
 
     //完成对RecycleView、SwipeRefreshLayout和ContentPresenter的初始化操作
-    private void init(){
-        if (null == mContentList || null == mRefresh){
+    private void init() {
+        if (null == mContentList || null == mRefresh) {
             throw new RuntimeException("Recycle view didn't bind");
         }
         Context context = getActivity().getApplicationContext();
         mDataList = new ArrayList<>();
 
-        mContentAdapter = new ContentAdapter(context,mDataList);
-        mLayoutManager = new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false);
+        mContentAdapter = new ContentAdapter(context, mDataList);
+        mLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         mContentList.setLayoutManager(mLayoutManager);
         mContentList.setAdapter(mContentAdapter);
         /**
@@ -75,7 +75,7 @@ public class ContentFragment extends Fragment implements IRefreshView,SwipeRefre
                 R.color.color_schema_third);
         mRefresh.setOnRefreshListener(this);
 
-        mContentPresenter = new ContentPresenter(context,mDataList,this);
+        mContentPresenter = new ContentPresenter(context, mDataList, this);
     }
 
     @Override
@@ -87,20 +87,20 @@ public class ContentFragment extends Fragment implements IRefreshView,SwipeRefre
     @Override
     public void refreshStart() {
         mRefresh.setRefreshing(true);
-        ToastUtil.show(getActivity().getApplicationContext(),"Reflesh start");
+        ToastUtil.show(getActivity().getApplicationContext(), "Reflesh start");
     }
 
     @Override
     public void refreshSuccess(int size) {
         mRefresh.setRefreshing(false);
         mContentAdapter.notifyDataSetChanged();
-        ToastUtil.show(getActivity().getApplicationContext(),"Refresh successfully");
+        ToastUtil.show(getActivity().getApplicationContext(), "Refresh successfully");
     }
 
     @Override
     public void refreshFail(Throwable throwable) {
         mRefresh.setRefreshing(false);
-        ToastUtil.show(getActivity().getApplicationContext(),"Refresh failed");
+        ToastUtil.show(getActivity().getApplicationContext(), "Refresh failed");
     }
 
     @Override

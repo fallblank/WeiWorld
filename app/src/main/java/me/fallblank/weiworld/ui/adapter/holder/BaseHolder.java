@@ -1,5 +1,6 @@
-package me.fallblank.weiworld.ui.adapter;
+package me.fallblank.weiworld.ui.adapter.holder;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -10,8 +11,10 @@ import butterknife.ButterKnife;
  */
 
 public abstract class BaseHolder extends RecyclerView.ViewHolder {
+    protected Context mContext;
     public BaseHolder(View itemView) {
         super(itemView);
+        mContext = itemView.getContext();
         ButterKnife.bind(this, itemView);
     }
 }

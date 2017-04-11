@@ -37,10 +37,10 @@ public class ContentManager extends BaseModel {
     private int mPageIndex = 1;
     private IWeiboContent mServer;
     private List<Weibo> mDataList;
-    private HashMap<String,String> mQueryMap;
+    private HashMap<String, String> mQueryMap;
     private ILoader mLoadListner;
 
-    public ContentManager(Context context,List<Weibo> dataList,ILoader loadListner){
+    public ContentManager(Context context, List<Weibo> dataList, ILoader loadListner) {
         this.mDataList = dataList;
         WeiboContentImp imp = new WeiboContentImp();
         this.mServer = imp.getWeiboContent();
@@ -48,27 +48,28 @@ public class ContentManager extends BaseModel {
         this.mLoadListner = loadListner;
     }
 
-    public void initQueryMap(Context context){
+    public void initQueryMap(Context context) {
         mQueryMap = new HashMap<>();
         App app = (App) context;
         String token = app.getAccessToken().getToken();
-        mQueryMap.put(ContentManager.kEY_ACCESS_TOKEN,token);
+        mQueryMap.put(ContentManager.kEY_ACCESS_TOKEN, token);
     }
 
     /**
      * 获取最新数据
+     *
      * @return 新增数据数量
      */
-    public void reflesh(){
-        mQueryMap.put(ContentManager.kEY_COUNT,mPageSize+"");
-        mQueryMap.put(ContentManager.kEY_PAGE,mPageIndex+"");
+    public void reflesh() {
+        mQueryMap.put(ContentManager.kEY_COUNT, mPageSize + "");
+        mQueryMap.put(ContentManager.kEY_PAGE, mPageIndex + "");
         mServer.listLastWeibo(mQueryMap)
                 .subscribeOn(Schedulers.io())
                 .map(new Function<ContentResponse, ContentResponse>() {
                     @Override
                     public ContentResponse apply(@NonNull ContentResponse contentResponse) throws Exception {
                         WeiboComparator comparator = new WeiboComparator();
-                        Collections.sort(contentResponse.getStatuses(),comparator);
+                        Collections.sort(contentResponse.getStatuses(), comparator);
                         return contentResponse;
                     }
                 })
@@ -83,6 +84,7 @@ public class ContentManager extends BaseModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Weibo>() {
                     int size = 0;
+
                     @Override
                     public void onSubscribe(Disposable d) {
                         mLoadListner.start();
@@ -91,8 +93,8 @@ public class ContentManager extends BaseModel {
                     @Override
                     public void onNext(Weibo weibo) {
                         //保证最新在最前面
-                        mDataList.add(0,weibo);
-                        size ++;
+                        mDataList.add(0, weibo);
+                        size++;
                     }
 
                     @Override
@@ -103,6 +105,7 @@ public class ContentManager extends BaseModel {
                     @Override
                     public void onComplete() {
                         mLoadListner.complete(size);
+                        mPageIndex++;
                     }
                 });
     }

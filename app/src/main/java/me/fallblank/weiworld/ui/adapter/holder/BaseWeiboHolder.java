@@ -1,4 +1,4 @@
-package me.fallblank.weiworld.ui.adapter;
+package me.fallblank.weiworld.ui.adapter.holder;
 
 import android.view.View;
 import android.widget.FrameLayout;
@@ -8,6 +8,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 import butterknife.BindView;
 import me.fallblank.weiworld.R;
+import me.fallblank.weiworld.ui.adapter.holder.BaseHolder;
 
 /**
  * Created by fallb on 2017/4/5.
@@ -16,19 +17,19 @@ import me.fallblank.weiworld.R;
 public class BaseWeiboHolder extends BaseHolder {
 
     @BindView(R.id.user_profile)
-    SimpleDraweeView mUserProfile;
+    protected SimpleDraweeView mUserProfile;
 
     @BindView(R.id.user_name)
-    TextView mUserName;
+    protected TextView mUserName;
 
     @BindView(R.id.weibo_timestamp)
-    TextView mTimestamp;
+    protected TextView mTimestamp;
 
     @BindView(R.id.weibo_text)
-    TextView mContentText;
+    protected TextView mContentText;
 
     @BindView(R.id.weibo_option)
-    FrameLayout mWeiboOption;
+    protected FrameLayout mWeiboOption;
 
     public BaseWeiboHolder(View itemView) {
         super(itemView);

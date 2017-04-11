@@ -5,8 +5,12 @@ package me.fallblank.weiworld.bean;
  */
 
 public final class WeiboType {
-    public static final int PLAIN_TEXT = 0;
-    public static final int RETWEET = 1;
-    public static final int PICTURE = 2;
-    public static final int OTHER = 3;
+    public static final int ORIGINAL = 100;
+    public static final int ORIGINAL_PICTURE = 101;
+    public static final int  ORIGINAL_PLAIN_TEXT = 103;
+
+    public static final int RETWEET = 200;
+    public static final int RETWEET_PICTURE = 201;
+    public static final int RETWEET_PLAIN_TEXT = 202;
+
 }
