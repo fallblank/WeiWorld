@@ -34,7 +34,7 @@ public class RetWeiboHolder extends BaseWeiboHolder {
         ButterKnife.bind(this, itemView);
     }
 
-    public void setRetweetText(String content) {
+    public void setRetweetText(CharSequence content) {
         mRetweetText.setText(content);
     }
 }

@@ -16,7 +16,10 @@ import me.fallblank.weiworld.ui.adapter.holder.TextWeiboHolder;
 import me.fallblank.weiworld.ui.adapter.holder.RetPictureWeiboHolder;
 import me.fallblank.weiworld.ui.adapter.holder.RetTextWeiboHolder;
 import me.fallblank.weiworld.ui.adapter.holder.RetWeiboHolder;
+import me.fallblank.weiworld.ui.text.SpannableWeiboText;
 import me.fallblank.weiworld.util.TimeFormatter;
+
+import static com.sina.weibo.sdk.openapi.legacy.CommonAPI.CAPITAL.r;
 
 /**
  * Created by fallb on 2017/4/5.
@@ -63,32 +66,44 @@ public class ContentAdapter extends BaseAdapter<Weibo, BaseWeiboHolder> {
         holder.setUserProfile(weibo.getUser().getProfile_image_url());
         holder.setUserName(weibo.getUser().getScreen_name());
         holder.setTimestamp(TimeFormatter.formatTime(weibo.getCreated_at()));
-        holder.setContentText(weibo.getText());
+        SpannableWeiboText originTextBuilder = new SpannableWeiboText.Builder()
+                .loadAt()
+                .loadTopic()
+                .build(weibo.getText());
+        holder.setContentText(originTextBuilder.getStringBuilder());
+
         int type = getItemViewType(position);
+        if (type / 100 == WeiboType.TYPE_RETWEET) {
+            RetWeiboHolder retweetHolder = (RetWeiboHolder) holder;
+            Weibo retweetWeibo = weibo.getRetweeted_status();
+            CharSequence retweetText = "@" + retweetWeibo.getUser().getScreen_name() + " :"
+                    + retweetWeibo.getText();
+            SpannableWeiboText weiboText = new SpannableWeiboText.Builder()
+                    .loadAt()
+                    .loadTopic()
+                    .build(retweetText);
+            retweetHolder.setRetweetText(weiboText.getStringBuilder());
+        }
+
         Weibo retweetWeibo = null;
-        switch (type){
+        switch (type) {
             case WeiboType.ORIGINAL:
                 //empty
                 break;
             case WeiboType.ORIGINAL_PICTURE:
                 PictureWeiboHolder pictureboHolder = (PictureWeiboHolder) holder;
-                pictureboHolder.setPictureList(weibo.getBmiddle_urls());
+                pictureboHolder.setPictureList(weibo.getPic_urls());
                 break;
             case WeiboType.ORIGINAL_PLAIN_TEXT:
                 //empty
                 break;
             case WeiboType.RETWEET:
-                retweetWeibo = weibo.getRetweeted_status();
-                RetWeiboHolder retweetHolder = (RetWeiboHolder) holder;
-                retweetHolder.setRetweetText("@" + retweetWeibo.getUser().getScreen_name() + ": "
-                        + retweetWeibo.getText());
+                //empty
                 break;
             case WeiboType.RETWEET_PICTURE:
                 retweetWeibo = weibo.getRetweeted_status();
                 RetPictureWeiboHolder retweetPictureHolder = (RetPictureWeiboHolder) holder;
-                retweetPictureHolder.setRetweetText("@" + retweetWeibo.getUser().getScreen_name() + ": "
-                        + retweetWeibo.getText());
-                retweetPictureHolder.setPictureList(retweetWeibo.getBmiddle_urls());
+                retweetPictureHolder.setPictureList(retweetWeibo.getPic_urls());
                 break;
             case WeiboType.RETWEET_PLAIN_TEXT:
                 //empty

@@ -105,7 +105,6 @@ public class ContentManager extends BaseModel {
                     @Override
                     public void onComplete() {
                         mLoadListner.complete(size);
-                        mPageIndex++;
                     }
                 });
     }

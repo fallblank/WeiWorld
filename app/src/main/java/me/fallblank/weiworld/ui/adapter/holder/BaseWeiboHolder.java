@@ -47,7 +47,7 @@ public class BaseWeiboHolder extends BaseHolder {
         mTimestamp.setText(timestamp);
     }
 
-    public void setContentText(String content){
+    public void setContentText(CharSequence content){
         mContentText.setText(content);
     }
 }
