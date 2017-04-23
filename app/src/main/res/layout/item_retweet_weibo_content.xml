@@ -3,15 +3,15 @@
               style="@style/RetweetWeiboStyle"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
+              android:layout_marginLeft="@dimen/margin_padding_design"
+              android:layout_marginRight="@dimen/margin_padding_design"
               android:orientation="vertical">
 
     <TextView
         android:id="@+id/weibo_retweet_text"
         style="@style/WeiboContentStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_padding_design"
-        android:layout_marginRight="@dimen/margin_padding_design"/>
+        android:layout_height="wrap_content"/>
 
     <FrameLayout
         android:id="@+id/weibo_retweet_option"

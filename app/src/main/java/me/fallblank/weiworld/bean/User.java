@@ -2,13 +2,15 @@ package me.fallblank.weiworld.bean;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by fallb on 2017/3/31.
  * @author fallblank
  * 完成对微博用户包含信息的封装。
  */
 
-public class User {
+public class User implements Serializable {
 
 
     /**
@@ -636,7 +638,7 @@ public class User {
         this.urank = urank;
     }
 
-    public static class InsecurityBean {
+    public static class InsecurityBean implements Serializable{
         /**
          * sexual_content : false
          */

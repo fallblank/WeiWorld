@@ -10,7 +10,13 @@ public class WeiboComparator implements Comparator<Weibo> {
 
     @Override
     public int compare(Weibo first, Weibo second) {
-        int r = first.getCreated_at().compareTo(second.getCreated_at());
-        return r;
+        long r = first.getId()-second.getId();
+        if (r > 0){
+            return -1;
+        }else if (r == 0){
+            return 0;
+        }else {
+            return 1;
+        }
     }
 }

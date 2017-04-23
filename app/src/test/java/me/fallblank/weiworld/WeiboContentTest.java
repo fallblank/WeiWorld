@@ -11,9 +11,9 @@ import java.util.Map;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
-import me.fallblank.weiworld.bean.ContentResponse;
-import me.fallblank.weiworld.biz.IWeiboContent;
-import me.fallblank.weiworld.impl.WeiboContentImp;
+import me.fallblank.weiworld.bean.ContentsResponse;
+import me.fallblank.weiworld.biz.retrofit.IWeiboContent;
+import me.fallblank.weiworld.impl.retrofit.RetrofitCenter;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -28,7 +28,7 @@ public class WeiboContentTest {
 
     @Before
     public void setup(){
-        WeiboContentImp impl = new WeiboContentImp();
+        RetrofitCenter impl = new RetrofitCenter();
         mWeiboContent = impl.getWeiboContent();
         mQueryMap = new HashMap<>();
         mQueryMap.put("access_token","2.00LsUikFibNiyB492a953cfa6boMdC");
@@ -52,15 +52,15 @@ public class WeiboContentTest {
 
     @Test
     public void testWeiboContentRetrofit(){
-        Observable<ContentResponse> observable = mWeiboContent.listLastWeibo(mQueryMap);
-        observable.subscribe(new Observer<ContentResponse>() {
+        Observable<ContentsResponse> observable = mWeiboContent.listLastWeibo(mQueryMap);
+        observable.subscribe(new Observer<ContentsResponse>() {
             @Override
             public void onSubscribe(Disposable d) {
                 System.out.println("begin");
             }
 
             @Override
-            public void onNext(ContentResponse contentResponse) {
+            public void onNext(ContentsResponse contentResponse) {
                 Assert.assertNotNull(contentResponse);
                 System.out.println("size:"+contentResponse.getStatuses().size());
             }

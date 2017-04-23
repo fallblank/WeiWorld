@@ -19,8 +19,10 @@ public class RetPictureWeiboHolder extends RetWeiboHolder {
         mGallery = new PictureGallery(itemView, mRetweetOption);
     }
 
-    public void setPictureList(List<Weibo.PicUrlsBean> picList) {
-        mGallery.setPictureList(picList);
+    @Override
+    public void setContent(Weibo weibo){
+        super.setContent(weibo);
+        Weibo retWeibo = weibo.getRetweeted_status();
+        mGallery.setPictureList(retWeibo.getPic_urls());
     }
-
 }

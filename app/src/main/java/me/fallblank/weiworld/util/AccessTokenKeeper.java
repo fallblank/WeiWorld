@@ -6,16 +6,26 @@ import android.content.SharedPreferences.Editor;
 
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 
+import me.fallblank.weiworld.bean.LoginUser;
+
+import static com.sina.weibo.sdk.auth.Oauth2AccessToken.KEY_UID;
+import static com.sina.weibo.sdk.openapi.legacy.CommonAPI.CAPITAL.u;
+
 /**
  * This class defined all authority information from Sina Weibo.
  */
 public class AccessTokenKeeper {
-    private static final String PREFERENCES_NAME = "me_fallblank_weiworld_auth";
+    private static final String PREFERENCES_NAME = "AccessToken";
 
-    private static final String KEY_UID           = "uid";
-    private static final String KEY_ACCESS_TOKEN  = "access_token";
-    private static final String KEY_EXPIRES_IN    = "expires_in";
-    private static final String KEY_REFRESH_TOKEN    = "refresh_token";
+    /**
+     * Token 相关
+     */
+    private static final String KEY_UID = "uid";
+    private static final String KEY_ACCESS_TOKEN = "access_token";
+    private static final String KEY_EXPIRES_IN = "expires_in";
+    private static final String KEY_REFRESH_TOKEN = "refresh_token";
+
+
 
     /**
      * Store Token object to SharedPreferences。
@@ -41,8 +51,7 @@ public class AccessTokenKeeper {
      * restore token from SharedPreferences
      *
      * @param context application context
-     *
-     * @return  Token object
+     * @return Token object
      */
     public static Oauth2AccessToken readAccessToken(Context context) {
         if (null == context) {
@@ -64,7 +73,7 @@ public class AccessTokenKeeper {
      *
      * @param context application context
      */
-    public static void clear(Context context) {
+    public static void clearToken(Context context) {
         if (null == context) {
             return;
         }

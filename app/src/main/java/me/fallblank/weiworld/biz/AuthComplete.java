@@ -12,7 +12,7 @@ public interface AuthComplete {
 
     public void fail();
 
-    public void cancer();
+    public void cancel();
 
     public void exception(Throwable throwable);
 }

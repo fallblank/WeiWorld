@@ -2,6 +2,7 @@ package me.fallblank.weiworld.bean;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,7 +16,7 @@ import static com.sina.weibo.sdk.openapi.legacy.CommonAPI.CAPITAL.b;
  * Created by fallb on 2017/3/31.
  */
 
-public class Weibo extends BaseBean {
+public class Weibo extends BaseBean implements Serializable{
 
     /**
      * created_at : Thu Mar 30 15:19:53 +0800 2017
@@ -72,7 +73,6 @@ public class Weibo extends BaseBean {
     private String bmiddle_pic;
     private String original_pic;
     private GeoBean geo;
-    @SerializedName("user")
     private User user;
 
     //当微博是转发内容时，存在该字段
@@ -348,7 +348,7 @@ public class Weibo extends BaseBean {
         this.annotations = annotations;
     }
 
-    public static class GeoBean {
+    public static class GeoBean implements Serializable{
         /**
          * type : Point
          * coordinates : [34.122504663004,108.82896051717]
@@ -374,7 +374,7 @@ public class Weibo extends BaseBean {
         }
     }
 
-    public static class VisibleBean {
+    public static class VisibleBean implements Serializable{
         /**
          * type : 0
          * list_id : 0
@@ -400,7 +400,7 @@ public class Weibo extends BaseBean {
         }
     }
 
-    public static class PicUrlsBean extends BaseBean {
+    public static class PicUrlsBean extends BaseBean implements Serializable{
         /**
          * thumbnail_pic : http://wx2.sinaimg.cn/thumbnail/eba694c2ly1fe4w5et1byj205a04kq2u.jpg
          */
@@ -416,7 +416,7 @@ public class Weibo extends BaseBean {
         }
     }
 
-    public static class AnnotationsBean {
+    public static class AnnotationsBean implements Serializable{
         /**
          * place : {"lon":108.82896051717,"poiid":"B2094656D26DA0F44892","title":"西安电子科技大学长安校区","type":"checkin","lat":34.122504663004}
          * client_mblogid : 8bc2fe73-de93-428a-b592-30af83b62734
@@ -451,7 +451,7 @@ public class Weibo extends BaseBean {
             this.mapi_request = mapi_request;
         }
 
-        public static class PlaceBean {
+        public static class PlaceBean implements Serializable {
             /**
              * lon : 108.82896051717
              * poiid : B2094656D26DA0F44892

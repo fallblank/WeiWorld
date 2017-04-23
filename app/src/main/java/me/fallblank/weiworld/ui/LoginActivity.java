@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -13,9 +15,9 @@ import me.fallblank.weiworld.R;
 import me.fallblank.weiworld.biz.AuthComplete;
 import me.fallblank.weiworld.presenter.LoginPresenter;
 import me.fallblank.weiworld.util.ToastUtil;
-import me.fallblank.weiworld.view.IWaitView;
+import me.fallblank.weiworld.iview.IWaitView;
 
-public class LoginActivity extends BaseActivity implements IWaitView,AuthComplete{
+public class LoginActivity extends BaseActivity implements IWaitView, AuthComplete {
     @BindView(R.id.btn_login)
     Button mLogin;
     @BindView(R.id.btn_register)
@@ -43,7 +45,7 @@ public class LoginActivity extends BaseActivity implements IWaitView,AuthComplet
     }
 
     @OnClick(R.id.btn_register)
-   void register() {
+    void register() {
         mLoginPresenter.register();
     }
 
@@ -53,11 +55,13 @@ public class LoginActivity extends BaseActivity implements IWaitView,AuthComplet
     }
 
     private void init() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, 0);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppTheme);
         LayoutInflater inflater = LayoutInflater.from(this);
-        builder.setView(inflater.inflate(R.layout.dialog_progress_wait,null));
+        builder.setView(inflater.inflate(R.layout.dialog_progress_wait,
+                (ViewGroup) findViewById(android.R.id.content),
+                false));
         mWaitDialog = builder.create();
-        mLoginPresenter =new LoginPresenter(this,this,this,this);
+        mLoginPresenter = new LoginPresenter(this, this, this, this);
     }
 
 
@@ -74,30 +78,30 @@ public class LoginActivity extends BaseActivity implements IWaitView,AuthComplet
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        mLoginPresenter.authorizeCallback(requestCode,resultCode,data);
+        mLoginPresenter.authorizeCallback(requestCode, resultCode, data);
     }
 
     @Override
     public void success() {
-        ToastUtil.show(this,getString(R.string.auth_success));
-        Intent i = new Intent(this,HomeActivity.class);
+        ToastUtil.show(this, getString(R.string.auth_success));
+        Intent i = new Intent(this, HomeActivity.class);
         startActivity(i);
         this.finish();
     }
 
     @Override
-    public void fail(){
-        ToastUtil.show(this,getString(R.string.auth_fail));
+    public void fail() {
+        ToastUtil.show(this, getString(R.string.auth_fail));
     }
 
     @Override
-    public void cancer() {
-        ToastUtil.show(this,getString(R.string.auth_cancle));
+    public void cancel() {
+        ToastUtil.show(this, getString(R.string.auth_cancle));
     }
 
     @Override
     public void exception(Throwable throwable) {
-        ToastUtil.show(this,getString(R.string.auth_error));
+        ToastUtil.show(this, getString(R.string.auth_error));
     }
 
 }

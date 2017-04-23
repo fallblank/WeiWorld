@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="colorCard">
+        <item>#f40606</item>
+        <item>#0ab6f4</item>
+        <item>#76c3df</item>
+        <item>#9edcf2</item>
+        <item>#bbf15e</item>
+        <item>#9ef228</item>
+        <item>#d739fa</item>
+        <item>#a0ffe1</item>
+        <item>#00bbff</item>
+        <item>#f79999</item>
+        <item>#0ab6f4</item>
+        <item>#d9f5ff</item>
+        <item>#42aacf</item>
+        <item>#b1eaff</item>
+    </array>
+</resources>

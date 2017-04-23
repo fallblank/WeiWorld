@@ -7,6 +7,7 @@ import android.util.DisplayMetrics;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 
+import me.fallblank.weiworld.bean.LoginUser;
 import me.fallblank.weiworld.ui.receiver.NetworkReceiver;
 import me.fallblank.weiworld.util.DeviceUtil;
 import me.fallblank.weiworld.util.NetworkChecker;
@@ -17,6 +18,8 @@ import me.fallblank.weiworld.util.NetworkChecker;
 
 public class App extends Application {
     private Oauth2AccessToken mAccessToken;
+    private LoginUser mUser;
+
     private int mScreenWidth;
     private int mScreenWidthNoSpace;
 
@@ -39,7 +42,13 @@ public class App extends Application {
         checker.check(this);
     }
 
+    public LoginUser getUser() {
+        return mUser;
+    }
 
+    public void setUser(LoginUser user) {
+        mUser = user;
+    }
 
     public Oauth2AccessToken getAccessToken() {
         return mAccessToken;
@@ -62,7 +71,6 @@ public class App extends Application {
         }
         return mScreenWidthNoSpace;
     }
-
 
     public boolean isWifiStatue() {
         return mWifiStatue;

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollIndicators="right"
+    tools:context="me.fallblank.weiworld.ui.WeiboDetailActivity"
+    tools:targetApi="m">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/item_base_weibo_content"/>
+
+        <!--预留评论viewpager信息加载栏-->
+        <com.astuetz.PagerSlidingTabStrip
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <include
+            layout="@layout/view_viewpager"/>
+    </LinearLayout>
+</ScrollView>

@@ -2,7 +2,7 @@ package me.fallblank.weiworld.presenter;
 
 import android.content.Context;
 
-import me.fallblank.weiworld.view.IView;
+import me.fallblank.weiworld.iview.IView;
 
 /**
  * Created by fallb on 2017/3/6.

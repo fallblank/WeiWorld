@@ -6,9 +6,15 @@ import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.text.style.ForegroundColorSpan;
+import android.view.View;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import me.fallblank.weiworld.util.ToastUtil;
+
+import static com.sina.weibo.sdk.openapi.legacy.AccountAPI.CAPITAL.I;
+import static com.sina.weibo.sdk.openapi.legacy.AccountAPI.CAPITAL.S;
 
 /**
  * Created by fallb on 2017/4/12.
@@ -32,8 +38,14 @@ public class TopicText extends BaseText {
         while (toPicMatcher.find()) {
             int start = toPicMatcher.start();
             int end = toPicMatcher.end();
-            ForegroundColorSpan colorSpan = new ForegroundColorSpan(mForegroundColor);
-            setSpan(colorSpan, start, end);
+            final String topic = toPicMatcher.group();
+            InterativeClickableSpan clickSpan = new InterativeClickableSpan(mForegroundColor) {
+                @Override
+                public void onClick(View widget) {
+                    ToastUtil.show(widget.getContext(), "你点击了话题：" + topic);
+                }
+            };
+            setSpan(clickSpan, start, end);
         }
     }
 

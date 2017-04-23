@@ -1,32 +1,47 @@
 package me.fallblank.weiworld.ui;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import butterknife.BindView;
 import me.fallblank.weiworld.R;
+import me.fallblank.weiworld.ui.fragment.ContactFragment;
+import me.fallblank.weiworld.ui.fragment.ContentFragment;
 import me.fallblank.weiworld.ui.receiver.NetworkReceiver;
 import me.fallblank.weiworld.util.Constant;
 
 public class HomeActivity extends BaseActivity {
 
-    private static final String TAG_CONTENT = "HomeActivity.ContentFragment";
+    private static final String TAG_CONTENT = "ContentFragment";
+    private static final String TAG_CONTACT = "ContactFragment";
+
     private BroadcastReceiver mNetworkReceiver;
 
 
-    @BindView(R.id.fl_container)
+    @BindView(R.id.container)
     FrameLayout mContainer;
+
     @BindView(R.id.bn_navigation)
     BottomNavigationView mNavigation;
+
     private FragmentManager mFManager;
+    /**
+     * 微博动态fragment
+     */
+    private ContentFragment mContentFragment;
+
+    /**
+     * 微博联系人fragment
+     */
+    private ContactFragment mContactFragment;
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -34,28 +49,24 @@ public class HomeActivity extends BaseActivity {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+            FragmentTransaction transaction = mFManager.beginTransaction();
+            hideAllFragment(transaction);
             switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    Fragment content = mFManager.findFragmentByTag(TAG_CONTENT);
-                    if (null == content) {
-                        content = ContentFragment.newInstance();
-                        mFManager.beginTransaction()
-                                .add(R.id.fl_container, content, TAG_CONTENT)
-                                .commit();
-                    } else {
-                        mFManager.beginTransaction()
-                                .replace(R.id.fl_container, content, TAG_CONTENT)
-                                .commit();
-                    }
-                    return true;
+                case R.id.navigation_refresh:
+                    setTitle("动态");
+                    showContent(transaction);
+                    break;
                 case R.id.navigation_dashboard:
-                    //contact
-                    return true;
+                    setTitle("消息");
+                    showContact(transaction);
+                    break;
                 case R.id.navigation_notifications:
                     //setting
-                    return true;
+                    break;
             }
-            return false;
+            transaction.commit();
+            return true;
         }
 
     };
@@ -72,10 +83,37 @@ public class HomeActivity extends BaseActivity {
         IntentFilter filter = new IntentFilter(Constant.ACTION_CONNECTIVITY_CHANGE);
         mNetworkReceiver = new NetworkReceiver();
         registerReceiver(mNetworkReceiver, filter);
-
-        mFManager = getFragmentManager();
         mNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        mFManager = getSupportFragmentManager();
     }
+
+    private void hideAllFragment(FragmentTransaction transaction) {
+        if (null != mContentFragment) {
+            transaction.hide(mContentFragment);
+        }
+        if (null != mContactFragment){
+            transaction.hide(mContactFragment);
+        }
+    }
+
+    private void showContent(FragmentTransaction transaction) {
+        if (null == mContentFragment) {
+            mContentFragment = ContentFragment.newInstance();
+            transaction.add(R.id.container, mContentFragment, TAG_CONTENT);
+        } else {
+            transaction.show(mContentFragment);
+        }
+    }
+
+    private void showContact(FragmentTransaction transaction) {
+        if (null == mContactFragment) {
+            mContactFragment = ContactFragment.newInstance();
+            transaction.add(R.id.container, mContactFragment, TAG_CONTENT);
+        } else {
+            transaction.show(mContactFragment);
+        }
+    }
+
 
     @Override
     protected void onDestroy() {
@@ -91,5 +129,4 @@ public class HomeActivity extends BaseActivity {
         i.addCategory(Intent.CATEGORY_HOME);
         startActivity(i);
     }
-
 }
