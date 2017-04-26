@@ -6,6 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     fresco:actualImageScaleType="centerCrop"
-    fresco:placeholderImage="@mipmap/ic_launcher">
+    fresco:placeholderImage="@drawable/placeholder_image">
 
 </com.facebook.drawee.view.SimpleDraweeView>

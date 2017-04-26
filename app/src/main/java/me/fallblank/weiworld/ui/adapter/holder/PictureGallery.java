@@ -26,7 +26,6 @@ public class PictureGallery {
     RecyclerView mPictureList;
     private GridLayoutManager mLayoutManager;
     private PictureAdapter mAdapter;
-    private List<Weibo.PicUrlsBean> mPicList;
     private Context mContext;
 
     public PictureGallery(View itemView, ViewGroup parent) {
@@ -39,7 +38,8 @@ public class PictureGallery {
     }
 
     public void setPictureList(List<Weibo.PicUrlsBean> picList) {
-        mPicList = picList;
+        mLayoutManager = new GridLayoutManager(mContext, getPictureGallerySize(picList));
+        mPictureList.setLayoutManager(mLayoutManager);
         mAdapter = new PictureAdapter(mContext, picList);
         mPictureList.setAdapter(mAdapter);
     }
@@ -48,13 +48,29 @@ public class PictureGallery {
      * 初始化RecyclerView，并绑定监听事件
      */
     private void init() {
-        mLayoutManager = new GridLayoutManager(mContext, 3);
         int spanWidth = mContext.getResources().getDimensionPixelSize(R.dimen.picture_span_size);
         RecyclerView.ItemDecoration itemDecoration = new PicItemDecoration(spanWidth);
         mPictureList.addItemDecoration(itemDecoration);
-        mPictureList.setLayoutManager(mLayoutManager);
-
         // TODO: 2017/4/11 Recyclerview的点击事件
     }
-
+    
+    public static int getPictureGallerySize(List<?> list) {
+        if (list != null) {
+            switch (list.size()) {
+                case 1:
+                    return 1;
+                case 2:
+                    return 2;
+                case 3:
+                    return 3;
+                case 4:
+                    return 2;
+                default:
+                    return 3;
+            }
+        } else {
+            return 3;
+        }
+    }
+    
 }

@@ -17,6 +17,10 @@ public abstract class BasePresenter<T extends IView>{
         mContext = context;
         mView = view;
     }
+    
+    public BasePresenter(Context context){
+        mContext = context;
+    }
 
     public T getView(){
         return mView;

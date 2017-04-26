@@ -9,7 +9,7 @@
     </style>
 
     <style name="WeiboContentStyle">
-        <item name="android:textColor">@color/colorTextPrimary</item>
+        <item name="android:textColor">@color/coloreTextPrimaryDark</item>
     </style>
 
     <style name="WeiboTimestampStyle">
@@ -27,5 +27,6 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
 
 </resources>

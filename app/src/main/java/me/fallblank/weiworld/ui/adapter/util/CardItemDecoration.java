@@ -17,8 +17,6 @@ public class CardItemDecoration extends BaseItemDecoration {
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         outRect.bottom = mSpan;
-        outRect.right = mSpan;
         outRect.top = mSpan;
-        outRect.left = mSpan;
     }
 }

@@ -9,6 +9,7 @@ import java.util.List;
 
 import me.fallblank.weiworld.R;
 import me.fallblank.weiworld.bean.Weibo;
+import me.fallblank.weiworld.ui.adapter.holder.PictureGallery;
 import me.fallblank.weiworld.ui.adapter.holder.PictureHolder;
 
 /**
@@ -16,25 +17,25 @@ import me.fallblank.weiworld.ui.adapter.holder.PictureHolder;
  */
 
 public class PictureAdapter extends BaseAdapter<Weibo.PicUrlsBean, PictureHolder> {
-
+    
     public PictureAdapter(Context context, List<Weibo.PicUrlsBean> dataList) {
         super(context, dataList);
     }
-
+    
     @Override
     public PictureHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext)
-                .inflate(R.layout.view_weibo_image,parent,false);
+                .inflate(R.layout.view_weibo_image, parent, false);
         PictureHolder holder = new PictureHolder(view);
         return holder;
     }
-
+    
     @Override
     public void onBindViewHolder(PictureHolder holder, int position) {
         Weibo.PicUrlsBean picUrlsBean = getItem(position);
-        holder.setPicture(picUrlsBean.getThumbnail_pic());
+        holder.setPicture(picUrlsBean.getThumbnail_pic(), PictureGallery.getPictureGallerySize(mDataList));
     }
-
+    
     @Override
     public int getItemCount() {
         return mDataList.size();

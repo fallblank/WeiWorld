@@ -3,8 +3,6 @@
               style="@style/RetweetWeiboStyle"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:layout_marginLeft="@dimen/margin_padding_design"
-              android:layout_marginRight="@dimen/margin_padding_design"
               android:orientation="vertical">
 
     <TextView

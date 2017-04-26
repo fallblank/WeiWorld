@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import me.fallblank.weiworld.biz.retrofit.IDetailWeibo;
 import me.fallblank.weiworld.biz.retrofit.IEmotionContent;
+import me.fallblank.weiworld.biz.retrofit.ILoginUser;
 import me.fallblank.weiworld.biz.retrofit.IWeiboContent;
 import me.fallblank.weiworld.util.TimeFormatter;
 import okhttp3.OkHttpClient;
@@ -54,5 +55,9 @@ public class RetrofitCenter {
 
     public IDetailWeibo getDetailWeibo() {
         return mRetrofit.create(IDetailWeibo.class);
+    }
+    
+    public ILoginUser getLoginUser(){
+        return mRetrofit.create(ILoginUser.class);
     }
 }

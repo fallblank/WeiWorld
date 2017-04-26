@@ -1,89 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/weibo_card"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:clickable="true">
 
-    <!--显示用户信息-->
     <LinearLayout
-        android:id="@+id/user_container"
+        android:id="@+id/weibo_card"
+        style="@style/WeiboContentStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_padding_design"
-        android:layout_marginLeft="@dimen/margin_padding_design"
-        android:layout_marginRight="@dimen/margin_padding_design"
-        android:layout_marginTop="@dimen/margin_padding_design"
-        android:baselineAligned="true"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <com.facebook.drawee.view.SimpleDraweeView
-            xmlns:fresco="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/user_profile"
-            android:layout_width="@dimen/user_profile_size"
-            android:layout_height="@dimen/user_profile_size"
-            android:layout_marginRight="@dimen/margin_padding_design"
-            fresco:actualImageScaleType="centerCrop"
-            fresco:placeholderImage="@mipmap/ic_launcher"
-            fresco:roundAsCircle="true"/>
-
-        <LinearLayout
-            android:id="@+id/user_info_container"
+        <!--显示用户信息-->
+        <include
+            layout="@layout/item_common_weibo_header"/>
+        <!--显示微博文字信息部分-->
+        <TextView
+            android:id="@+id/weibo_text"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/user_profile_size"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/user_name"
-                style="@style/WeiboContentStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="fallblank"
-                android:textSize="@dimen/user_profile_name"/>
-
-            <TextView
-                android:id="@+id/weibo_timestamp"
-                style="@style/WeiboTimestampStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="2017-4-5"/>
-        </LinearLayout>
-
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"/>
+        <!--微博选项内容部分-->
+        <FrameLayout
+            android:id="@+id/weibo_option"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+        </FrameLayout>
+        <!--微底部栏-->
+        <include
+            layout="@layout/item_common_weibo_bottom_bar"/>
 
     </LinearLayout>
 
-    <!--显示微博文字信息部分-->
-    <TextView
-        android:id="@+id/weibo_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:textColor="@color/colorTextPrimary"/>
-    <!--微博选项内容部分-->
-    <FrameLayout
-        android:id="@+id/weibo_option"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp">
-    </FrameLayout>
 
-
-    <!--显示微博转发、评论、点赞等信息-->
-    <LinearLayout
-        android:id="@+id/func_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
-        android:orientation="horizontal">
-
-    </LinearLayout>
-</LinearLayout>
+</android.support.v7.widget.CardView>
 
 

@@ -24,6 +24,5 @@ public class TimeFormatter {
         String hour = calendar.get(Calendar.HOUR_OF_DAY)+"";
         String minute = calendar.get(Calendar.MINUTE)+"";
         return year+"年"+month+"月"+day+"日 "+hour+":"+minute;
-
     }
 }

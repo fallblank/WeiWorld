@@ -16,17 +16,22 @@ public class PictureHolder extends BaseHolder {
 
     @BindView(R.id.iv_picture)
     SimpleDraweeView mWeiboPicture;
+    
+    private int mWidth;
 
     public PictureHolder(View itemView) {
         super(itemView);
         App app = (App) mContext.getApplicationContext();
-        int width = app.getScreenWidthNoSpcae();
-        //保证图片是正方形
-        mWeiboPicture.setMaxHeight(width / 3);
-        mWeiboPicture.setMinimumHeight(width / 3);
+        this.mWidth = app.getScreenWidthNoSpcae();
     }
 
-    public void setPicture(String picUrl) {
+    public void setPicture(String picUrl,int size) {
+        int width = mWidth/size;
+        mWeiboPicture.setMaxWidth(width);
+        mWeiboPicture.setMinimumWidth(width);
+        mWeiboPicture.setMaxHeight(width);
+        mWeiboPicture.setMinimumHeight(width);
+        
         mWeiboPicture.setImageURI(picUrl);
     }
 }

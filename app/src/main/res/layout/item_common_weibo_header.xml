@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/user_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/margin_padding_design"
+    android:layout_marginLeft="@dimen/margin_padding_design"
+    android:layout_marginRight="@dimen/margin_padding_design"
+    android:layout_marginTop="@dimen/margin_padding_design"
+    android:baselineAligned="true"
+    android:orientation="horizontal">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        xmlns:fresco="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/user_profile"
+        android:layout_width="@dimen/user_profile_size"
+        android:layout_height="@dimen/user_profile_size"
+        android:layout_marginEnd="@dimen/margin_padding_design"
+        fresco:actualImageScaleType="centerCrop"
+        fresco:placeholderImage="@drawable/placeholder_image"
+        fresco:roundAsCircle="true"/>
+
+
+    <LinearLayout
+        android:id="@+id/user_info_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/user_profile_size"
+        android:layout_marginEnd="@dimen/margin_padding_design"
+        android:layout_toEndOf="@id/user_profile"
+        android:layout_toStartOf="@+id/card_option_more"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="fallblank"
+            android:textSize="@dimen/user_profile_name"/>
+
+        <TextView
+            android:id="@+id/weibo_timestamp"
+            style="@style/WeiboTimestampStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="2017-4-5"/>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@id/card_option_more"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/timeline_icon_more"/>
+
+</RelativeLayout>

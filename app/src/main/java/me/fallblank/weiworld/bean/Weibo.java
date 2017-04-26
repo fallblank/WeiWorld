@@ -1,15 +1,11 @@
 package me.fallblank.weiworld.bean;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import me.fallblank.weiworld.util.URLParser;
-
-import static com.sina.weibo.sdk.openapi.legacy.CommonAPI.CAPITAL.b;
 
 
 /**
@@ -63,6 +59,7 @@ public class Weibo extends BaseBean implements Serializable{
     private String mid;
     private String idstr;
     private String text;
+    private String deleted="0";
     private int textLength;
     private int source_allowclick;
     private int source_type;
@@ -91,7 +88,15 @@ public class Weibo extends BaseBean implements Serializable{
     private int is_show_bulletin;
     private List<PicUrlsBean> pic_urls;
     private List<AnnotationsBean> annotations;
-
+    
+    public String getDeleted() {
+        return deleted;
+    }
+    
+    public void setDeleted(String deleted) {
+        this.deleted = deleted;
+    }
+    
     public Date getCreated_at() {
         return created_at;
     }

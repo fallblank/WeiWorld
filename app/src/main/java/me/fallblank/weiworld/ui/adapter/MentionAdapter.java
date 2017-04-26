@@ -6,8 +6,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import me.fallblank.weiworld.bean.BaseBean;
-import me.fallblank.weiworld.ui.adapter.holder.BaseHolder;
-import me.fallblank.weiworld.ui.adapter.holder.BaseWeiboHolder;
+import me.fallblank.weiworld.ui.adapter.holder.weibo.BaseWeiboHolder;
 
 /**
  * Created by fallb on 2017/4/21.
