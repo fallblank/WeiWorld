@@ -32,6 +32,7 @@ public class PictureAdapter extends BaseAdapter<Weibo.PicUrlsBean, PictureHolder
     
     @Override
     public void onBindViewHolder(PictureHolder holder, int position) {
+        super.onBindViewHolder(holder,position);
         Weibo.PicUrlsBean picUrlsBean = getItem(position);
         holder.setPicture(picUrlsBean.getThumbnail_pic(), PictureGallery.getPictureGallerySize(mDataList));
     }

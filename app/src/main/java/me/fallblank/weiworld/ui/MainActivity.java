@@ -1,5 +1,6 @@
 package me.fallblank.weiworld.ui;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -29,6 +30,9 @@ import me.fallblank.weiworld.ui.fragment.FavoriteFragment;
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     
+    public static MainActivity sActivity = null;
+    public static final String ACTION_OPEN_DRAWER = "action_open_drawer";
+    
     @BindView(R.id.content_container)
     FrameLayout mContentContainer;
     
@@ -52,6 +56,7 @@ public class MainActivity extends BaseActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sActivity = this;
         
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -72,6 +77,10 @@ public class MainActivity extends BaseActivity
         navigationView.setNavigationItemSelectedListener(this);
         loadUserInfo();
         showIndexFragment();
+        Intent intent = getIntent();
+        if (intent.getAction() == MainActivity.ACTION_OPEN_DRAWER) {
+            drawer.openDrawer(GravityCompat.START);
+        }
     }
     
     /**
@@ -89,6 +98,14 @@ public class MainActivity extends BaseActivity
         mUserProfile.setImageURI(user.getAvatar_large());
         mUsername.setText(user.getScreen_name());
         mUserDesc.setText(user.getDescription());
+        
+        mUserProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AccountActivity.class);
+                startActivity(intent);
+            }
+        });
     }
     
     /**

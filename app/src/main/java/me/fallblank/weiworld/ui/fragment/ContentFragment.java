@@ -94,7 +94,7 @@ public class ContentFragment extends BaseFragment implements IRefreshView {
         //滑动加载更多
         mContentAdapter.setOnItemClickListener(new BaseAdapter.OnRecyclerItemClickListener<Weibo>() {
             @Override
-            public void onItemClicked(View item, Weibo data) {
+            public void onItemClicked(View item, int position, Weibo data) {
                 Intent intent = new Intent(getActivity(),
                         WeiboDetailActivity.class);
                 Bundle bundle = new Bundle();
@@ -113,7 +113,6 @@ public class ContentFragment extends BaseFragment implements IRefreshView {
     
     @Override
     public void refreshStart() {
-        ToastUtil.show(mContext, "刷新开始");
         if (!mRefreshIndicator.isRefreshing()) {
             mRefreshIndicator.setRefreshing(true);
         }
@@ -121,14 +120,15 @@ public class ContentFragment extends BaseFragment implements IRefreshView {
     
     @Override
     public void refreshSuccess(int size) {
-        ToastUtil.show(mContext, "刷新成功,新增加数据：" + size);
         mRefreshIndicator.setRefreshing(false);
-        mContentAdapter.notifyDataSetChanged();
+        if (size > 0) {
+            ToastUtil.show(mContext, "刷新成功,新增加数据：" + size + "条");
+            mContentAdapter.notifyDataSetChanged();
+        }
     }
     
     @Override
     public void refreshFail(Throwable throwable) {
-        ToastUtil.show(mContext, "刷新失败");
         mRefreshIndicator.setRefreshing(false);
     }
 }

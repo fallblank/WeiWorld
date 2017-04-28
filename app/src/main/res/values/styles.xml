@@ -8,6 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="PictrueGalleryTheme" parent="AppTheme">
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
     <style name="WeiboContentStyle">
         <item name="android:textColor">@color/coloreTextPrimaryDark</item>
     </style>

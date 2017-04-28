@@ -3,6 +3,7 @@ package me.fallblank.weiworld.ui;
 import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.view.View;
 
 import com.astuetz.PagerSlidingTabStrip;
@@ -34,7 +35,9 @@ public class WeiboDetailActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_weibo_detail);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        
         Intent intent = getIntent();
         Weibo weibo = (Weibo) intent.getSerializableExtra(WeiboDetailActivity.EXTRA_WEIBO);
         int type = ReuseHolderMethod.getWeiboType(weibo);
@@ -44,7 +47,7 @@ public class WeiboDetailActivity extends BaseActivity {
         holder.setContent(weibo);
         //取消掉原本的转发、点赞、评论栏
         findViewById(R.id.bottombar_layout).setVisibility(View.GONE);
-        initPager(weibo.getId());
+//        initPager(weibo.getId());
     }
 
     private void initPager(long id) {

@@ -33,21 +33,21 @@ public class ContentManager extends BaseModel {
     private static final String kEY_PAGE = "page";
     private static final String KEY_MAX_ID = "max_id";
     private static final String KEY_SINCE_ID = "since_id";
-
-
+    
+    
     private final String mRefreshPageSize = "20";
     private final String mLoadPageSize = "10";
     private final String mPageIndex = "1";
-
+    
     private String mMaxID = "0";
     private String mSinceID = "0";
     private boolean firstRefresh = true;
-
+    
     private IWeiboContent mServer;
     private List<Weibo> mDataList;
     private HashMap<String, String> mQueryMap;
     private ILoader mLoadListner;
-
+    
     public ContentManager(Context context, List<Weibo> dataList) {
         this.mDataList = dataList;
         RetrofitCenter imp = new RetrofitCenter();
@@ -65,7 +65,7 @@ public class ContentManager extends BaseModel {
         String token = app.getAccessToken().getToken();
         mQueryMap.put(ContentManager.kEY_ACCESS_TOKEN, token);
     }
-
+    
     public void loadMore() {
         mQueryMap.put(ContentManager.kEY_COUNT, mLoadPageSize);
         mQueryMap.put(ContentManager.kEY_PAGE, mPageIndex);
@@ -94,30 +94,30 @@ public class ContentManager extends BaseModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Weibo>() {
                     int size = 0;
-
+                    
                     @Override
                     public void onSubscribe(Disposable d) {
                         mLoadListner.start();
                     }
-
+                    
                     @Override
                     public void onNext(Weibo weibo) {
                         size++;
                         mDataList.add(weibo);
                     }
-
+                    
                     @Override
                     public void onError(Throwable e) {
                         mLoadListner.error(e);
                     }
-
+                    
                     @Override
                     public void onComplete() {
                         mLoadListner.complete(size);
                     }
                 });
     }
-
+    
     /**
      * 获取最新数据
      *
@@ -154,24 +154,24 @@ public class ContentManager extends BaseModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Weibo>() {
                     int size = 0;
-
+                    
                     @Override
                     public void onSubscribe(Disposable d) {
                         mLoadListner.start();
                     }
-
+                    
                     @Override
                     public void onNext(Weibo weibo) {
                         //保证最新在最前面
-                        mDataList.add(weibo);
+                        mDataList.add(0, weibo);
                         size++;
                     }
-
+                    
                     @Override
                     public void onError(Throwable e) {
                         mLoadListner.error(e);
                     }
-
+                    
                     @Override
                     public void onComplete() {
                         mLoadListner.complete(size);
@@ -179,26 +179,26 @@ public class ContentManager extends BaseModel {
                 });
         firstRefresh = false;
     }
-
+    
     private boolean isFirstRefresh() {
         return firstRefresh;
     }
-
+    
     private void updateSinceId(String newSinceId) {
         this.mSinceID = newSinceId;
     }
-
+    
     private void updateMaxId(String newMaxId) {
         this.mMaxID = newMaxId;
     }
-
+    
     @Override
     protected void store() {
-
+        
     }
-
+    
     @Override
     protected void restore() {
-
+        
     }
 }

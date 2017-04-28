@@ -23,7 +23,7 @@ public class OriginWeiboHolder extends BaseWeiboHolder {
         super.setContent(weibo);
         if (weibo.isContainPic()) {
             mWeiboOption.setVisibility(View.VISIBLE);
-            mGallery.setPictureList(weibo.getBmiddle_urls());
+            mGallery.setPictureList(weibo);
         } else {
             mWeiboOption.setVisibility(View.GONE);
         }

@@ -58,9 +58,10 @@ public class FavoriteFragment extends BaseFragment {
     private void init() {
         mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         mAdapter = new FavoriteAdapter(mContext, mDataList);
+        mAdapter.setFManager(getActivity().getSupportFragmentManager());
         mAdapter.setOnItemClickListener(new BaseAdapter.OnRecyclerItemClickListener<Favorite.FavoritesBean>() {
             @Override
-            public void onItemClicked(View item, Favorite.FavoritesBean data) {
+            public void onItemClicked(View item, int position, Favorite.FavoritesBean data) {
                 Intent intent = new Intent(getActivity(),
                         WeiboDetailActivity.class);
                 Bundle bundle = new Bundle();

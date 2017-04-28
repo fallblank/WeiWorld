@@ -43,10 +43,10 @@ public class RetweetWeiboHolder extends BaseWeiboHolder {
         super.setContent(weibo);
         Weibo retweetWeibo = weibo.getRetweeted_status();
         String content;
-        if (retweetWeibo.getUser() != null){
+        if (retweetWeibo.getUser() != null) {
             content = "@" + retweetWeibo.getUser().getScreen_name() + " :"
                     + retweetWeibo.getText();
-        }else {
+        } else {
             content = retweetWeibo.getText();
         }
         SpannableWeiboText retweetText = new SpannableWeiboText.Builder()
@@ -54,10 +54,10 @@ public class RetweetWeiboHolder extends BaseWeiboHolder {
                 .loadTopic()
                 .build(content);
         mRetweetContent.setText(retweetText.getStringBuilder());
-        if (retweetWeibo.isContainPic()){
+        if (retweetWeibo.isContainPic()) {
             mRetweetOption.setVisibility(View.VISIBLE);
-            mGallery.setPictureList(retweetWeibo.getBmiddle_urls());
-        }else {
+            mGallery.setPictureList(retweetWeibo);
+        } else {
             mRetweetOption.setVisibility(View.GONE);
         }
     }

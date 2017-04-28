@@ -17,6 +17,10 @@
 
     <color name="white_overlay">#ffffff</color>
 
+    <!--白色背景按压效果-->
+    <color name="colorWhiteRelease">#ffffff</color>
+    <color name="colorWhitePressed">#cfcfcf</color>
+
     <!--转发微博的原微博背景色-->
     <color name="colorOriginBackground">#e1e0e0</color>
     <color name="colorDark">#2b2b2b</color>

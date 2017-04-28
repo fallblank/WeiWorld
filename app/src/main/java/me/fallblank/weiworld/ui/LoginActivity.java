@@ -111,6 +111,7 @@ public class LoginActivity extends BaseActivity implements IWaitView, AuthComple
     public void onFetchSuccess() {
         ToastUtil.show(this, "拉取用户信息成功");
         Intent intent = new Intent(this, MainActivity.class);
+        intent.setAction(MainActivity.ACTION_OPEN_DRAWER);
         startActivity(intent);
         this.finish();
     }
