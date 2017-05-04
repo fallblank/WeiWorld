@@ -1,5 +1,6 @@
 package me.fallblank.weiworld.util;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -27,5 +28,12 @@ public class TimeFormatter {
     
     public static String getTimeStamp() {
         return formatTime(new Date());
+    }
+    
+    private static String PARTTERN = "yyyy-MM-dd HH:mm ss";
+    private static SimpleDateFormat sSimpleDateFormat = new SimpleDateFormat(PARTTERN);
+    
+    public static String getVisualTimestamp(Date date) {
+        return sSimpleDateFormat.format(date);
     }
 }

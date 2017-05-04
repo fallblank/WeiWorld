@@ -3,7 +3,7 @@ package me.fallblank.weiworld.biz.retrofit;
 import java.util.Map;
 
 import io.reactivex.Observable;
-import me.fallblank.weiworld.bean.ContentsResponse;
+import me.fallblank.weiworld.bean.ContentResponse;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -17,7 +17,7 @@ import retrofit2.http.QueryMap;
 
 public interface IWeiboContent {
     @GET("2/statuses/home_timeline.json")
-    Observable<ContentsResponse> listLastWeibo(@QueryMap Map<String,String> query);
+    Observable<ContentResponse> listLastWeibo(@QueryMap Map<String,String> query);
 
     @GET("2/statuses/home_timeline.json")
     Call<ResponseBody> testListLastWeibo(@QueryMap Map<String,String> query);

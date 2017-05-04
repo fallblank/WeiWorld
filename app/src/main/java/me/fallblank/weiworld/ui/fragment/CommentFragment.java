@@ -2,89 +2,126 @@ package me.fallblank.weiworld.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import me.fallblank.weiworld.R;
 import me.fallblank.weiworld.bean.Comment;
-import me.fallblank.weiworld.iview.ILoadView;
-import me.fallblank.weiworld.iview.IView;
-import me.fallblank.weiworld.presenter.CommentsPresenter;
+import me.fallblank.weiworld.biz.ILoader;
+import me.fallblank.weiworld.model.CommentManager;
 import me.fallblank.weiworld.ui.adapter.CommentAdapter;
-
-import static com.sina.weibo.sdk.openapi.legacy.CommonAPI.CAPITAL.g;
-import static com.sina.weibo.sdk.openapi.legacy.CommonAPI.CAPITAL.m;
+import me.fallblank.weiworld.ui.adapter.LoadMoreWrapperAdapter;
+import me.fallblank.weiworld.ui.adapter.util.CardItemDecoration;
+import me.fallblank.weiworld.util.LogUtil;
+import me.fallblank.weiworld.util.ToastUtil;
 
 /**
- * Created by fallb on 2017/4/20.
+ * Created by fallb on 2017/5/3.
  */
 
-public class CommentFragment extends BaseFragment implements ILoadView {
-
-    public static final String ARG_WEIBO_ID = "weibo.id";
-
+public class CommentFragment extends BaseFragment {
+    
+    @BindView(R.id.sr_refresh)
+    SwipeRefreshLayout mRefreshView;
     @BindView(R.id.rv_list)
-    RecyclerView mCommnetList;
-
-    RecyclerView.LayoutManager mLayout;
-    CommentAdapter mCommentAdapter;
-    List<Comment> mDataList;
-    private CommentsPresenter mPresenter;
-    private long mWeiboId;
-
-    public static CommentFragment newInstance(long id) {
+    RecyclerView mRecyclerView;
+    
+    RecyclerView.LayoutManager mLayoutManager;
+    
+    CommentAdapter mAdapter;
+    LoadMoreWrapperAdapter mWrapperAdapter;
+    
+    List<Comment> mCommentList = new ArrayList<>();
+    
+    CommentManager mCommentManager;
+    
+    
+    public static CommentFragment newInstance() {
         CommentFragment fragment = new CommentFragment();
-        // TODO: 2017/4/20 init bundle
-        Bundle bundle = new Bundle();
-        bundle.putLong(ARG_WEIBO_ID, id);
-        fragment.setArguments(bundle);
         return fragment;
     }
-
+    
     @Override
-    public int setLayout() {
-        return R.layout.fragment_comment_list;
+    protected int setLayout() {
+        return R.layout.fragment_comment;
     }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Bundle bundle = getArguments();
-        mWeiboId = bundle.getLong(ARG_WEIBO_ID);
-    }
-
+    
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = super.onCreateView(inflater, container, savedInstanceState);
-        init();
-        return root;
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
-
-    private void init() {
-        mDataList = new LinkedList<>();
-        mCommentAdapter = new CommentAdapter(mContext, mDataList);
-        mLayout = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
-        mCommnetList.setLayoutManager(mLayout);
-        mCommnetList.setAdapter(mCommentAdapter);
-        mPresenter = new CommentsPresenter(mContext, this, mDataList, mWeiboId);
-        mPresenter.load();
-    }
-
+    
     @Override
-    public void onStartLoad() {
-
-    }
-
-    @Override
-    public void onLoadComplete() {
-        mCommentAdapter.notifyDataSetChanged();
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        int spanWidth = this.getResources().getDimensionPixelSize(R.dimen.card_span_size);
+        CardItemDecoration decoration = new CardItemDecoration(spanWidth);
+        mCommentManager = new CommentManager(mContext, mCommentList);
+        mRecyclerView.addItemDecoration(decoration);
+        mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+        mAdapter = new CommentAdapter(mContext, mCommentList);
+        mWrapperAdapter = new LoadMoreWrapperAdapter(mAdapter, R.layout.item_recycler_bottom_view);
+        mWrapperAdapter.setBottomListener(new LoadMoreWrapperAdapter.OnBottomListener() {
+            @Override
+            public void onBottom() {
+                mCommentManager.loadMore();
+            }
+        });
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mWrapperAdapter);
+        mCommentManager.setRefreshListener(new ILoader() {
+            @Override
+            public void start() {
+                if (!mRefreshView.isRefreshing()) {
+                    mRefreshView.setRefreshing(true);
+                }
+            }
+            
+            @Override
+            public void complete(int size) {
+                mRefreshView.setRefreshing(false);
+                ToastUtil.show(mContext, "新增数据：" + size + "条");
+                mWrapperAdapter.selfNotifyDataSetChanged();
+            }
+            
+            @Override
+            public void error(Throwable throwable) {
+                mRefreshView.setRefreshing(false);
+                LogUtil.d("comment 刷新失败", throwable);
+            }
+        });
+        mCommentManager.setLoadMoreListener(new ILoader() {
+            @Override
+            public void start() {
+                
+            }
+            
+            @Override
+            public void complete(int size) {
+                ToastUtil.show(mContext, "新增数据：" + size + "条");
+                mWrapperAdapter.selfNotifyDataSetChanged();
+            }
+            
+            @Override
+            public void error(Throwable throwable) {
+                LogUtil.d("comment 加载更多失败", throwable);
+                mWrapperAdapter.setHideBottomView(true);
+            }
+        });
+        mRefreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mCommentManager.refresh();
+            }
+        });
+        mCommentManager.refresh();
     }
 }

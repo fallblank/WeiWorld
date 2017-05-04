@@ -22,6 +22,7 @@ import me.fallblank.weiworld.model.ContentManager;
 import me.fallblank.weiworld.ui.WeiboDetailActivity;
 import me.fallblank.weiworld.ui.adapter.BaseAdapter;
 import me.fallblank.weiworld.ui.adapter.ContentAdapter;
+import me.fallblank.weiworld.ui.adapter.LoadMoreWrapperAdapter;
 import me.fallblank.weiworld.ui.adapter.util.CardItemDecoration;
 import me.fallblank.weiworld.util.ToastUtil;
 
@@ -39,6 +40,7 @@ public class ContentFragment extends BaseFragment implements IRefreshView {
     
     private RecyclerView.LayoutManager mLayoutManager;
     private ContentAdapter mContentAdapter;
+    private LoadMoreWrapperAdapter mWrapperAdapter;
     private List<Weibo> mDataList;
     
     private ContentManager mContentManager;
@@ -66,7 +68,32 @@ public class ContentFragment extends BaseFragment implements IRefreshView {
     private void init() {
         mDataList = new ArrayList<>();
         mContentManager = new ContentManager(mContext, mDataList);
-        mContentManager.setLoadListner(new ILoader() {
+        mContentAdapter = new ContentAdapter(mContext, getActivity().getSupportFragmentManager(), mDataList);
+        mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+        
+        int spanWidth = this.getResources().getDimensionPixelSize(R.dimen.card_span_size);
+        RecyclerView.ItemDecoration itemDecoration = new CardItemDecoration(spanWidth);
+        mContentList.addItemDecoration(itemDecoration);
+        mContentList.setLayoutManager(mLayoutManager);
+        mContentAdapter.setOnItemClickListener(new BaseAdapter.OnRecyclerItemClickListener<Weibo>() {
+            @Override
+            public void onItemClicked(View item, int position, Weibo data) {
+                Intent intent = new Intent(getActivity(),
+                        WeiboDetailActivity.class);
+                Bundle bundle = new Bundle();
+                intent.putExtra(WeiboDetailActivity.EXTRA_WEIBO, data);
+                startActivity(intent);
+            }
+        });
+        mWrapperAdapter = new LoadMoreWrapperAdapter(mContentAdapter, R.layout.item_recycler_bottom_view);
+        mWrapperAdapter.setBottomListener(new LoadMoreWrapperAdapter.OnBottomListener() {
+            @Override
+            public void onBottom() {
+                mContentManager.loadMore();
+            }
+        });
+        mContentList.setAdapter(mWrapperAdapter);
+        mContentManager.setRefreshListner(new ILoader() {
             @Override
             public void start() {
                 refreshStart();
@@ -82,24 +109,23 @@ public class ContentFragment extends BaseFragment implements IRefreshView {
                 refreshFail(throwable);
             }
         });
-        
-        mContentAdapter = new ContentAdapter(mContext, getActivity().getSupportFragmentManager(), mDataList);
-        mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
-        
-        int spanWidth = this.getResources().getDimensionPixelSize(R.dimen.card_span_size);
-        RecyclerView.ItemDecoration itemDecoration = new CardItemDecoration(spanWidth);
-        mContentList.addItemDecoration(itemDecoration);
-        mContentList.setLayoutManager(mLayoutManager);
-        mContentList.setAdapter(mContentAdapter);
-        //滑动加载更多
-        mContentAdapter.setOnItemClickListener(new BaseAdapter.OnRecyclerItemClickListener<Weibo>() {
+        mContentManager.setLoadMoreListner(new ILoader() {
             @Override
-            public void onItemClicked(View item, int position, Weibo data) {
-                Intent intent = new Intent(getActivity(),
-                        WeiboDetailActivity.class);
-                Bundle bundle = new Bundle();
-                intent.putExtra(WeiboDetailActivity.EXTRA_WEIBO, data);
-                startActivity(intent);
+            public void start() {
+                //empty
+            }
+            
+            @Override
+            public void complete(int size) {
+                ToastUtil.show(mContext, "新增加数据：" + size);
+                if (size > 0) {
+                    mWrapperAdapter.selfNotifyDataSetChanged();
+                }
+            }
+            
+            @Override
+            public void error(Throwable throwable) {
+                mWrapperAdapter.setHideBottomView(true);
             }
         });
         mContentManager.refresh();
@@ -123,7 +149,7 @@ public class ContentFragment extends BaseFragment implements IRefreshView {
         mRefreshIndicator.setRefreshing(false);
         if (size > 0) {
             ToastUtil.show(mContext, "刷新成功,新增加数据：" + size + "条");
-            mContentAdapter.notifyDataSetChanged();
+            mWrapperAdapter.notifyDataSetChanged();
         }
     }
     

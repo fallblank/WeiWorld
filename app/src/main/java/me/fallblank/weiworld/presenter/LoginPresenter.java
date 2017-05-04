@@ -41,7 +41,7 @@ public class LoginPresenter extends BasePresenter<IWaitView> implements WeiboAut
     
     private Activity mLoginActivity;
     
-    private UserInfoManager mUserInfoManager = new UserInfoManager(this);;
+    private UserInfoManager mUserInfoManager = new UserInfoManager(mContext,this);
     
     public LoginPresenter(Context context, Activity activity, AuthComplete authComplete, OnFetchListener fetchListener, IWaitView view) {
         super(context, view);

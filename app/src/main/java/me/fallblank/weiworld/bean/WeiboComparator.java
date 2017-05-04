@@ -12,11 +12,11 @@ public class WeiboComparator implements Comparator<Weibo> {
     public int compare(Weibo first, Weibo second) {
         long r = first.getId()-second.getId();
         if (r > 0){
-            return -1;
+            return 1;
         }else if (r == 0){
             return 0;
         }else {
-            return 1;
+            return -1;
         }
     }
 }

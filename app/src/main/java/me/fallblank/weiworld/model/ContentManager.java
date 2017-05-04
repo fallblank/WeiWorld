@@ -16,9 +16,10 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import me.fallblank.weiworld.App;
-import me.fallblank.weiworld.bean.ContentsResponse;
+import me.fallblank.weiworld.bean.ContentResponse;
 import me.fallblank.weiworld.bean.Weibo;
 import me.fallblank.weiworld.bean.WeiboComparator;
+import me.fallblank.weiworld.bean.WeiboReverseComparator;
 import me.fallblank.weiworld.biz.ILoader;
 import me.fallblank.weiworld.biz.retrofit.IWeiboContent;
 import me.fallblank.weiworld.impl.retrofit.RetrofitCenter;
@@ -35,28 +36,34 @@ public class ContentManager extends BaseModel {
     private static final String KEY_SINCE_ID = "since_id";
     
     
-    private final String mRefreshPageSize = "20";
-    private final String mLoadPageSize = "10";
+    private final String mRefreshPageSize = "15";
+    private final String mLoadPageSize = "15";
     private final String mPageIndex = "1";
     
-    private String mMaxID = "0";
-    private String mSinceID = "0";
-    private boolean firstRefresh = true;
+    private long mMaxID = 0L;
+    private long mSinceID = 0L;
+    private HashMap<String, String> mQueryMap;
     
     private IWeiboContent mServer;
     private List<Weibo> mDataList;
-    private HashMap<String, String> mQueryMap;
-    private ILoader mLoadListner;
+    
+    private ILoader mRefreshListner;
+    private ILoader mLoadMoreListner;
     
     public ContentManager(Context context, List<Weibo> dataList) {
+        super(context);
         this.mDataList = dataList;
         RetrofitCenter imp = new RetrofitCenter();
         this.mServer = imp.getWeiboContent();
         initQueryMap(context);
     }
     
-    public void setLoadListner(ILoader loadListner) {
-        mLoadListner = loadListner;
+    public void setLoadMoreListner(ILoader listner) {
+        mLoadMoreListner = listner;
+    }
+    
+    public void setRefreshListner(ILoader listner) {
+        mRefreshListner = listner;
     }
     
     public void initQueryMap(Context context) {
@@ -67,26 +74,25 @@ public class ContentManager extends BaseModel {
     }
     
     public void loadMore() {
+        mQueryMap.remove(KEY_SINCE_ID);
         mQueryMap.put(ContentManager.kEY_COUNT, mLoadPageSize);
         mQueryMap.put(ContentManager.kEY_PAGE, mPageIndex);
-        mQueryMap.put(ContentManager.KEY_MAX_ID, mMaxID);
+        mQueryMap.put(ContentManager.KEY_MAX_ID, String.valueOf(mMaxID));
         mServer.listLastWeibo(mQueryMap)
                 .subscribeOn(Schedulers.io())
-                .map(new Function<ContentsResponse, ContentsResponse>() {
+                .map(new Function<ContentResponse, ContentResponse>() {
                     @Override
-                    public ContentsResponse apply(@NonNull ContentsResponse contentResponse) throws Exception {
-                        WeiboComparator comparator = new WeiboComparator();
+                    public ContentResponse apply(@NonNull ContentResponse contentResponse) throws Exception {
+                        WeiboReverseComparator comparator = new WeiboReverseComparator();
                         Collections.sort(contentResponse.getStatuses(), comparator);
+                        updateMaxId(contentResponse.getNext_cursor());
                         return contentResponse;
                     }
                 })
-                .flatMap(new Function<ContentsResponse, ObservableSource<Weibo>>() {
+                .flatMap(new Function<ContentResponse, ObservableSource<Weibo>>() {
                     @Override
-                    public ObservableSource<Weibo> apply(@NonNull ContentsResponse contentResponse) throws Exception {
+                    public ObservableSource<Weibo> apply(@NonNull ContentResponse contentResponse) throws Exception {
                         List<Weibo> weiboList = contentResponse.getStatuses();
-                        if (weiboList.size() > 0) {
-                            updateMaxId(weiboList.get(weiboList.size() - 1).getIdstr());
-                        }
                         return Observable.fromIterable(weiboList);
                     }
                 })
@@ -97,7 +103,9 @@ public class ContentManager extends BaseModel {
                     
                     @Override
                     public void onSubscribe(Disposable d) {
-                        mLoadListner.start();
+                        if (mLoadMoreListner != null) {
+                            mLoadMoreListner.start();
+                        }
                     }
                     
                     @Override
@@ -108,12 +116,16 @@ public class ContentManager extends BaseModel {
                     
                     @Override
                     public void onError(Throwable e) {
-                        mLoadListner.error(e);
+                        if (mLoadMoreListner != null) {
+                            mLoadMoreListner.error(e);
+                        }
                     }
                     
                     @Override
                     public void onComplete() {
-                        mLoadListner.complete(size);
+                        if (mLoadMoreListner != null) {
+                            mLoadMoreListner.complete(size);
+                        }
                     }
                 });
     }
@@ -124,28 +136,27 @@ public class ContentManager extends BaseModel {
      * @return 新增数据数量
      */
     public void refresh() {
+        mQueryMap.remove(KEY_MAX_ID);
         mQueryMap.put(ContentManager.kEY_COUNT, mRefreshPageSize);
         mQueryMap.put(ContentManager.kEY_PAGE, mPageIndex);
-        mQueryMap.put(ContentManager.KEY_SINCE_ID, mSinceID);
+        mQueryMap.put(ContentManager.KEY_SINCE_ID, String.valueOf(mSinceID));
         mServer.listLastWeibo(mQueryMap)
                 .subscribeOn(Schedulers.io())
-                .map(new Function<ContentsResponse, ContentsResponse>() {
+                .map(new Function<ContentResponse, ContentResponse>() {
                     @Override
-                    public ContentsResponse apply(@NonNull ContentsResponse contentResponse) throws Exception {
+                    public ContentResponse apply(@NonNull ContentResponse contentResponse) throws Exception {
                         WeiboComparator comparator = new WeiboComparator();
                         Collections.sort(contentResponse.getStatuses(), comparator);
+                        updateMaxId(contentResponse.getNext_cursor());
                         return contentResponse;
                     }
                 })
-                .flatMap(new Function<ContentsResponse, ObservableSource<Weibo>>() {
+                .flatMap(new Function<ContentResponse, ObservableSource<Weibo>>() {
                     @Override
-                    public ObservableSource<Weibo> apply(@NonNull ContentsResponse contentResponse) throws Exception {
+                    public ObservableSource<Weibo> apply(@NonNull ContentResponse contentResponse) throws Exception {
                         List<Weibo> weiboList = contentResponse.getStatuses();
                         if (weiboList.size() > 0) {
-                            updateSinceId(weiboList.get(0).getIdstr());
-                            if (isFirstRefresh()) {
-                                updateMaxId(weiboList.get(weiboList.size() - 1).getIdstr());
-                            }
+                            updateSinceId(weiboList.get(weiboList.size() - 1).getId());
                         }
                         return Observable.fromIterable(weiboList);
                     }
@@ -157,7 +168,9 @@ public class ContentManager extends BaseModel {
                     
                     @Override
                     public void onSubscribe(Disposable d) {
-                        mLoadListner.start();
+                        if (mRefreshListner != null) {
+                            mRefreshListner.start();
+                        }
                     }
                     
                     @Override
@@ -169,27 +182,32 @@ public class ContentManager extends BaseModel {
                     
                     @Override
                     public void onError(Throwable e) {
-                        mLoadListner.error(e);
+                        if (mRefreshListner != null) {
+                            mRefreshListner.error(e);
+                        }
                     }
                     
                     @Override
                     public void onComplete() {
-                        mLoadListner.complete(size);
+                        if (mRefreshListner != null) {
+                            mRefreshListner.complete(size);
+                        }
                     }
                 });
-        firstRefresh = false;
     }
     
-    private boolean isFirstRefresh() {
-        return firstRefresh;
+    private void updateSinceId(long newSinceId) {
+        if (mSinceID == 0L) {
+            mSinceID = newSinceId;
+        }
+        mSinceID = newSinceId > mSinceID ? newSinceId : mSinceID;
     }
     
-    private void updateSinceId(String newSinceId) {
-        this.mSinceID = newSinceId;
-    }
-    
-    private void updateMaxId(String newMaxId) {
-        this.mMaxID = newMaxId;
+    private void updateMaxId(long newMaxId) {
+        if (mMaxID == 0L) {
+            mMaxID = newMaxId;
+        }
+        mMaxID = newMaxId < mMaxID ? newMaxId : mMaxID;
     }
     
     @Override

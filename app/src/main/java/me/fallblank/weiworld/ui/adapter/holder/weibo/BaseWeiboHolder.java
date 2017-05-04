@@ -70,12 +70,12 @@ public class BaseWeiboHolder extends BaseHolder {
             mFuncContainer.setVisibility(View.VISIBLE);
             mUserProfile.setImageURI(weibo.getUser().getProfile_image_url());
             mUserName.setText(weibo.getUser().getScreen_name());
-            mTimestamp.setText(TimeFormatter.formatTime(weibo.getCreated_at()));
+            mTimestamp.setText(TimeFormatter.getVisualTimestamp(weibo.getCreated_at()));
             mMoreOption.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     WeiboOptionBottomSheetFragment fragment = WeiboOptionBottomSheetFragment.newInstance(weibo);
-                    fragment.show(mFManager,TAG_BOTTOM_SHEET);
+                    fragment.show(mFManager, TAG_BOTTOM_SHEET);
                 }
             });
             mRedirect.setText(String.valueOf(weibo.getReposts_count()));

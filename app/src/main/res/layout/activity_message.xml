@@ -4,7 +4,10 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <include
-        layout="@layout/view_recycler"/>
+    <include layout="@layout/view_tab_header"/>
 
+    <FrameLayout
+        android:id="@+id/content_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </LinearLayout>

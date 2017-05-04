@@ -5,5 +5,5 @@ package me.fallblank.weiworld;
  */
 
 public class Constant {
-    public static final String ACCESS_TOKEN = "2.00LsUikFibNiyB492a953cfa6boMdC";
+    public static final String ACCESS_TOKEN = "2.00LsUikF0B2xVN1dc1b07eb8VlqYsB";
 }

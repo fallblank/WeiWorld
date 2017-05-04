@@ -36,9 +36,9 @@ public class FavoritaManager extends BaseModel {
     private int mPageIndex = 1;
     private List<Favorite.FavoritesBean> mDataList;
     private ILoader mLoadListener;
-    private Context mContext;
     
     public FavoritaManager(Context context, List<Favorite.FavoritesBean> dataList) {
+        super(context);
         App app = (App) context.getApplicationContext();
         mContext = context;
         this.mAPI = new FavoritesAPI(context, BuildConfig.APP_KEY, app.getAccessToken());

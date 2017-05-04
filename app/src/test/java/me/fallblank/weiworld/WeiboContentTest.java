@@ -11,7 +11,7 @@ import java.util.Map;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
-import me.fallblank.weiworld.bean.ContentsResponse;
+import me.fallblank.weiworld.bean.ContentResponse;
 import me.fallblank.weiworld.biz.retrofit.IWeiboContent;
 import me.fallblank.weiworld.impl.retrofit.RetrofitCenter;
 import okhttp3.ResponseBody;
@@ -52,15 +52,15 @@ public class WeiboContentTest {
 
     @Test
     public void testWeiboContentRetrofit(){
-        Observable<ContentsResponse> observable = mWeiboContent.listLastWeibo(mQueryMap);
-        observable.subscribe(new Observer<ContentsResponse>() {
+        Observable<ContentResponse> observable = mWeiboContent.listLastWeibo(mQueryMap);
+        observable.subscribe(new Observer<ContentResponse>() {
             @Override
             public void onSubscribe(Disposable d) {
                 System.out.println("begin");
             }
 
             @Override
-            public void onNext(ContentsResponse contentResponse) {
+            public void onNext(ContentResponse contentResponse) {
                 Assert.assertNotNull(contentResponse);
                 System.out.println("size:"+contentResponse.getStatuses().size());
             }

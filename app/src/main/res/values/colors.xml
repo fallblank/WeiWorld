@@ -35,4 +35,12 @@
     <color name="home_bottombar_font">#929292</color><!--底部bar字体颜色-->
     <color name="commentbar_vertical_drive">#f2f2f2</color><!--竖直的分割线-->
 
+    <!--post按钮-->
+    <color name="colorClickableText">#fff</color>
+    <color name="colorUnclickableText">#acacac</color>
+
+    <!--Tab-->
+    <color name="colorTabSelected">#fff</color>
+
+
 </resources>

@@ -45,7 +45,7 @@
         </activity>
         <activity
             android:name=".ui.MainActivity"
-            android:theme="@style/AppTheme">
+            android:label="首页">
         </activity>
         <activity
             android:name=".ui.AccountActivity"
@@ -58,6 +58,10 @@
         <activity
             android:name=".ui.PictureGalleryActivity"
             android:theme="@style/PictrueGalleryTheme">
+        </activity>
+        <activity android:name=".ui.PostActivity">
+        </activity>
+        <activity android:name=".ui.MessageActivity">
         </activity>
     </application>
 

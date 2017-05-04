@@ -5,7 +5,6 @@ import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -26,6 +25,7 @@ import me.fallblank.weiworld.R;
 import me.fallblank.weiworld.bean.LoginUser;
 import me.fallblank.weiworld.ui.fragment.ContentFragment;
 import me.fallblank.weiworld.ui.fragment.FavoriteFragment;
+import me.fallblank.weiworld.ui.fragment.PublicFragment;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -47,6 +47,7 @@ public class MainActivity extends BaseActivity
     FragmentManager mFragmentManager = getSupportFragmentManager();
     Fragment mHomeFragment;
     Fragment mFavoriteFragment;
+    Fragment mPublicFragment;
     
     @Override
     protected int setContentView() {
@@ -62,8 +63,8 @@ public class MainActivity extends BaseActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(MainActivity.this, PostActivity.class);
+                startActivity(intent);
             }
         });
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -155,17 +156,19 @@ public class MainActivity extends BaseActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
-        hideAllFragment(transaction);
         if (id == R.id.nav_home) {
+            hideAllFragment(transaction);
             showHomeFragment(transaction);
-        } else if (id == R.id.nav_gallery) {
-            
-        } else if (id == R.id.nav_slideshow) {
-            
+        } else if (id == R.id.nav_hot) {
+            hideAllFragment(transaction);
+            showPublicFragment(transaction);
         } else if (id == R.id.nav_favorite) {
+            hideAllFragment(transaction);
             showFavoriteFragment(transaction);
+        } else if (id == R.id.nav_message) {
+            Intent intent = new Intent(MainActivity.this, MessageActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_share) {
             
         } else if (id == R.id.nav_send) {
@@ -184,10 +187,14 @@ public class MainActivity extends BaseActivity
         if (null != mFavoriteFragment) {
             transaction.hide(mFavoriteFragment);
         }
+        if (null != mPublicFragment) {
+            transaction.hide(mPublicFragment);
+        }
     }
     
     private static final String TAG_HOME = "home";
     private static final String TAG_FAVORITE = "favorite";
+    private static final String TAG_PUBLIC = "public";
     
     private void showHomeFragment(FragmentTransaction transaction) {
         if (null == mHomeFragment) {
@@ -207,5 +214,15 @@ public class MainActivity extends BaseActivity
             transaction.show(mFavoriteFragment);
         }
         mToolbar.setTitle("收藏");
+    }
+    
+    private void showPublicFragment(FragmentTransaction transaction) {
+        if (null == mPublicFragment) {
+            mPublicFragment = PublicFragment.newInstance();
+            transaction.add(R.id.content_container, mPublicFragment, TAG_PUBLIC);
+        } else {
+            transaction.show(mPublicFragment);
+        }
+        mToolbar.setTitle("热门");
     }
 }

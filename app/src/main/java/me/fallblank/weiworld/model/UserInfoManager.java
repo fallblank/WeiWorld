@@ -1,5 +1,7 @@
 package me.fallblank.weiworld.model;
 
+import android.content.Context;
+
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -19,13 +21,14 @@ public class UserInfoManager extends BaseModel {
     
     private OnLoadListener<LoginUser> mListener;
     
-    public UserInfoManager(OnLoadListener<LoginUser> listener){
+    public UserInfoManager(Context context, OnLoadListener<LoginUser> listener) {
+        super(context);
         this.mListener = listener;
     }
     
     
-    public void fetchFromNet(String token,String uid){
-        mLoginUser.getUser(token,uid)
+    public void fetchFromNet(String token, String uid) {
+        mLoginUser.getUser(token, uid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<LoginUser>() {
@@ -33,17 +36,17 @@ public class UserInfoManager extends BaseModel {
                     public void onSubscribe(Disposable d) {
                         //empty
                     }
-    
+                    
                     @Override
                     public void onNext(LoginUser loginUser) {
                         mListener.onComplete(loginUser);
                     }
-    
+                    
                     @Override
                     public void onError(Throwable e) {
                         mListener.onError(e);
                     }
-    
+                    
                     @Override
                     public void onComplete() {
                         //empty
