@@ -172,7 +172,9 @@ public class MainActivity extends BaseActivity
         } else if (id == R.id.nav_share) {
             Intent i = new Intent();
             i.setAction(Intent.ACTION_SEND);
-            i.putExtra(Intent.EXTRA_TEXT, "第三方轻量级微博客户端：https://raw.githubusercontent.com/fallblank/WeiWorld/master/weijie.apk");
+            i.putExtra(Intent.EXTRA_TEXT, "第三方轻量级微博客户端：\n" +
+                    "https://raw.githubusercontent.com/fallblank/WeiWorld/master/weijie.apk\n" +
+                    "快来下载吧！");
             i.setType("text/plain");
             startActivity(i);
         } else if (id == R.id.nav_about) {
