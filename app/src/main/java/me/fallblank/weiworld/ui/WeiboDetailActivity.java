@@ -2,13 +2,9 @@ package me.fallblank.weiworld.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.view.View;
 
-import com.astuetz.PagerSlidingTabStrip;
-
-import butterknife.BindView;
 import me.fallblank.weiworld.R;
 import me.fallblank.weiworld.bean.Weibo;
 import me.fallblank.weiworld.ui.adapter.holder.weibo.BaseWeiboHolder;
@@ -16,13 +12,7 @@ import me.fallblank.weiworld.util.ReuseHolderMethod;
 
 public class WeiboDetailActivity extends BaseActivity {
     public static final String EXTRA_WEIBO = "WeiboDetailActivity.weibo";
-
-    @BindView(R.id.vp_pager)
-    ViewPager mPager;
-
-
-    @BindView(R.id.tabs)
-    PagerSlidingTabStrip mTabStrip;
+    
 
     @Override
     protected int setContentView() {

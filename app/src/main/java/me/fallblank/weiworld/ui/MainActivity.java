@@ -172,10 +172,12 @@ public class MainActivity extends BaseActivity
         } else if (id == R.id.nav_share) {
             Intent i = new Intent();
             i.setAction(Intent.ACTION_SEND);
-            i.putExtra(Intent.EXTRA_TEXT, "第三方轻量微博客户端：");
-    
-        } else if (id == R.id.nav_send) {
-            
+            i.putExtra(Intent.EXTRA_TEXT, "第三方轻量级微博客户端：https://raw.githubusercontent.com/fallblank/WeiWorld/master/weijie.apk");
+            i.setType("text/plain");
+            startActivity(i);
+        } else if (id == R.id.nav_about) {
+            Intent intent = new Intent(this, AboutActivity.class);
+            startActivity(intent);
         }
         transaction.commit();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

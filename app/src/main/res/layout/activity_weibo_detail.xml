@@ -18,14 +18,5 @@
 
         <include
             layout="@layout/item_base_weibo_content"/>
-
-        <!--预留评论viewpager信息加载栏-->
-        <com.astuetz.PagerSlidingTabStrip
-            android:id="@+id/tabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <include
-            layout="@layout/view_viewpager"/>
     </LinearLayout>
 </LinearLayout>
