@@ -170,7 +170,10 @@ public class MainActivity extends BaseActivity
             Intent intent = new Intent(MainActivity.this, MessageActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_share) {
-            
+            Intent i = new Intent();
+            i.setAction(Intent.ACTION_SEND);
+            i.putExtra(Intent.EXTRA_TEXT, "第三方轻量微博客户端：");
+    
         } else if (id == R.id.nav_send) {
             
         }
